@@ -7,8 +7,8 @@
     <!-- Editable list begins here -->
     <!-- To customize, change text between <instrVoice ...> and </instVoice> -->
     <!-- Do not change attributes or delete rows -->
-    <instrVoice code="ba" label="Brass - Horn">cor.</instrVoice>
-    <instrVoice code="bb" label="Brass - Trumpet">tr.</instrVoice>
+    <instrVoice code="ba" label="Brass - Horn">Cor</instrVoice>
+    <instrVoice code="bb" label="Brass - Trumpet">Tr</instrVoice>
     <instrVoice code="bc" label="Brass - Cornet">cnt.</instrVoice>
     <instrVoice code="bd" label="Brass - Trombone">trb.</instrVoice>
     <instrVoice code="be" label="Brass - Tuba">tb.</instrVoice>
@@ -25,15 +25,15 @@
     <instrVoice code="eu" label="Electronic - Unknown">electronics</instrVoice>
     <instrVoice code="ez" label="Electronic - Other">electronics</instrVoice>
     <instrVoice code="ka" label="Keyboard - Piano">pf.</instrVoice>
-    <instrVoice code="kb" label="Keyboard - Organ">org.</instrVoice>
-    <instrVoice code="kc" label="Keyboard - Harpsichord">cemb.</instrVoice>
+    <instrVoice code="kb" label="Keyboard - Organ">Org</instrVoice>
+    <instrVoice code="kc" label="Keyboard - Harpsichord">Cemb</instrVoice>
     <instrVoice code="kd" label="Keyboard - Clavichord">clav.</instrVoice>
     <instrVoice code="ke" label="Keyboard - Continuo">b.c.</instrVoice>
     <instrVoice code="kf" label="Keyboard - Celeste">cel.</instrVoice>
-    <instrVoice code="kn" label="Keyboard - Unspecified">keyb.</instrVoice>
-    <instrVoice code="ku" label="Keyboard - Unknown">keyb.</instrVoice>
+    <instrVoice code="kn" label="Keyboard - Unspecified">Clavier</instrVoice>
+    <instrVoice code="ku" label="Keyboard - Unknown">Clavier</instrVoice>
     <instrVoice code="ky" label="Keyboard - Ethnic">keyb.</instrVoice>
-    <instrVoice code="kz" label="Keyboard - Other">keyb.</instrVoice>
+    <instrVoice code="kz" label="Keyboard - Other">Clavier</instrVoice>
     <instrVoice code="pa" label="Percussion - Timpani">timp.</instrVoice>
     <instrVoice code="pb" label="Percussion - Xylophone">xyl.</instrVoice>
     <instrVoice code="pc" label="Percussion - Marimba">marimba</instrVoice>
@@ -42,10 +42,10 @@
     <instrVoice code="pu" label="Percussion - Unknown">perc.</instrVoice>
     <instrVoice code="py" label="Percussion - Ethnic">perc.</instrVoice>
     <instrVoice code="pz" label="Percussion - Other">perc.</instrVoice>
-    <instrVoice code="sa" label="Strings, bowed - Violin">vl.</instrVoice>
-    <instrVoice code="sb" label="Strings, bowed - Viola">va.</instrVoice>
-    <instrVoice code="sc" label="Strings, bowed - Violoncello">vc.</instrVoice>
-    <instrVoice code="sd" label="Strings, bowed - Double bass">cb.</instrVoice>
+    <instrVoice code="sa" label="Strings, bowed - Violin">Vl</instrVoice>
+    <instrVoice code="sb" label="Strings, bowed - Viola">Va</instrVoice>
+    <instrVoice code="sc" label="Strings, bowed - Violoncello">Vc</instrVoice>
+    <instrVoice code="sd" label="Strings, bowed - Double bass">Cb</instrVoice>
     <instrVoice code="se" label="Strings, bowed - Viol">viol</instrVoice>
     <instrVoice code="sf" label="Strings, bowed - Viola d'amore">va.d.a.</instrVoice>
     <instrVoice code="sg" label="Strings, bowed - Viola da gamba">va.d.g.</instrVoice>
@@ -74,10 +74,10 @@
     <instrVoice code="vn" label="Voices - Unspecified">voice</instrVoice>
     <instrVoice code="vu" label="Voices - Unknown">voice</instrVoice>
     <instrVoice code="vy" label="Voices - Ethnic">voice</instrVoice>
-    <instrVoice code="wa" label="Woodwinds - Flute">fl.</instrVoice>
-    <instrVoice code="wb" label="Woodwinds - Oboe">ob.</instrVoice>
+    <instrVoice code="wa" label="Woodwinds - Flute">Fl</instrVoice>
+    <instrVoice code="wb" label="Woodwinds - Oboe">Ob</instrVoice>
     <instrVoice code="wc" label="Woodwinds - Clarinet">cl.</instrVoice>
-    <instrVoice code="wd" label="Woodwinds - Bassoon">fg.</instrVoice>
+    <instrVoice code="wd" label="Woodwinds - Bassoon">Fg</instrVoice>
     <instrVoice code="we" label="Woodwinds - Piccolo">picc.</instrVoice>
     <instrVoice code="wf" label="Woodwinds - English horn">cor.ingl.</instrVoice>
     <instrVoice code="wg" label="Woodwinds - Bass clarinet">cl.b.</instrVoice>
