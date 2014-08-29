@@ -11,8 +11,12 @@
         <expan>tamburo piccolo</expan>
     </choice>
     <choice>
-        <abbr>A.</abbr>
-        <expan>alto</expan>
+        <abbr>A*</abbr>
+        <expan>Solo-Alt</expan>
+    </choice>
+    <choice>
+        <abbr>A</abbr>
+        <expan>Alt</expan>
     </choice>
     <choice>
         <abbr>arm.</abbr>
@@ -23,12 +27,28 @@
         <expan>arpa</expan>
     </choice>
     <choice>
-        <abbr>B.</abbr>
-        <expan>basso</expan>
+        <abbr>B*</abbr>
+        <expan>Solo-Bass</expan>
+    </choice>
+    <choice>
+        <abbr>B</abbr>
+        <expan>Bass</expan>
     </choice>
     <choice>
         <abbr>Bar.</abbr>
         <expan>baritono</expan>
+    </choice>
+    <choice>
+        <abbr>Bc</abbr>
+        <expan>Basso continuo</expan>
+    </choice>
+    <choice>
+        <abbr>BR-CPEB</abbr>
+        <expan>Bach-Repertorium Carl Philipp Emanuel Bach</expan>
+    </choice>
+    <choice>
+        <abbr>BR-JEB</abbr>
+        <expan>Bach-Repertorium Johann Ernst Bach</expan>
     </choice>
     <choice>
         <abbr>camp.</abbr>
@@ -55,40 +75,28 @@
         <expan>clarinetto basso</expan>
     </choice>
     <choice>
-        <abbr>cl.</abbr>
-        <expan>clarinetto</expan>
+        <abbr>Cl</abbr>
+        <expan>Klarinette</expan>
     </choice>
     <choice>
         <abbr>cmplli.</abbr>
         <expan>campanelli</expan>
     </choice>
     <choice>
-        <abbr>CNA</abbr>
-        <expan>Carl Nielsen Arkivet (The Carl Nielsen Archive, The Royal Library, Copenhagen)</expan>
-    </choice>
-    <choice>
-        <abbr>CNS</abbr>
-        <expan>Carl Nielsens Samling (The Carl Nielsen Collection, The Royal Library, Copenhagen)</expan>
-    </choice>
-    <choice>
         <abbr>cnt.</abbr>
         <expan>cornetto</expan>
-    </choice>
-    <choice>
-        <abbr>CNU</abbr>
-        <expan>Carl Nielsen Udgaven (The Carl Nielsen Edition)</expan>
     </choice>
     <choice>
         <abbr>cor.ingl.</abbr>
         <expan>corno inglese</expan>
     </choice>
     <choice>
-        <abbr>cor.</abbr>
-        <expan>corno</expan>
+        <abbr>Cor</abbr>
+        <expan>Corno</expan>
     </choice>
     <choice>
-        <abbr>fg.</abbr>
-        <expan>fagotto</expan>
+        <abbr>Fg</abbr>
+        <expan>Fagott</expan>
     </choice>
     <choice>
         <abbr>fl.gr.</abbr>
@@ -99,8 +107,8 @@
         <expan>flauto piccolo</expan>
     </choice>
     <choice>
-        <abbr>fl.</abbr>
-        <expan>flauto</expan>
+        <abbr>Fl</abbr>
+        <expan>Traversflöte</expan>
     </choice>
     <choice>
         <abbr>flic.bar.</abbr>
@@ -177,8 +185,12 @@
         <expan>raganella</expan>
     </choice>
     <choice>
-        <abbr>S.</abbr>
-        <expan>soprano</expan>
+        <abbr>S*</abbr>
+        <expan>Solo-Sopran</expan>
+    </choice>
+    <choice>
+        <abbr>S</abbr>
+        <expan>Sopran</expan>
     </choice>
     <choice>
         <abbr>str4tet</abbr>
@@ -209,12 +221,12 @@
         <expan>tamburino</expan>
     </choice>
     <choice>
-        <abbr>timp.</abbr>
-        <expan>timpani</expan>
+        <abbr>Timp</abbr>
+        <expan>Pauken</expan>
     </choice>
     <choice>
-        <abbr>tr.</abbr>
-        <expan>tromba</expan>
+        <abbr>Tr</abbr>
+        <expan>Tromba</expan>
     </choice>
     <choice>
         <abbr>trb.a.</abbr>
@@ -229,20 +241,20 @@
         <expan>trombone tenore</expan>
     </choice>
     <choice>
-        <abbr>trb.</abbr>
-        <expan>trombone</expan>
+        <abbr>Trb.</abbr>
+        <expan>Trombone</expan>
     </choice>
     <choice>
         <abbr>trgl.</abbr>
         <expan>triangolo</expan>
     </choice>
     <choice>
-        <abbr>va.</abbr>
-        <expan>viola</expan>
+        <abbr>Va</abbr>
+        <expan>Viola</expan>
     </choice>
     <choice>
-        <abbr>vc.</abbr>
-        <expan>violoncello</expan>
+        <abbr>Vc</abbr>
+        <expan>Violoncello</expan>
     </choice>
     <choice>
         <abbr>vl.1</abbr>
@@ -265,8 +277,8 @@
         <expan>violoncello</expan>
     </choice>
     <choice>
-        <abbr>vle.</abbr>
-        <expan>viole</expan>
+        <abbr>Vle</abbr>
+        <expan>Viole</expan>
     </choice>
     <choice>
         <abbr>ww.</abbr>
