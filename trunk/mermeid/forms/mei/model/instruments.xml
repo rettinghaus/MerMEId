@@ -10,7 +10,7 @@
     <instrVoice code="ba" label="Brass - Horn">Cor</instrVoice>
     <instrVoice code="bb" label="Brass - Trumpet">Tr</instrVoice>
     <instrVoice code="bc" label="Brass - Cornet">cnt.</instrVoice>
-    <instrVoice code="bd" label="Brass - Trombone">trb.</instrVoice>
+    <instrVoice code="bd" label="Brass - Trombone">Tbne</instrVoice>
     <instrVoice code="be" label="Brass - Tuba">tb.</instrVoice>
     <instrVoice code="bf" label="Brass - Baritone">bar.</instrVoice>
     <instrVoice code="bn" label="Brass - Unspecified">brass</instrVoice>
@@ -76,8 +76,8 @@
     <instrVoice code="vy" label="Voices - Ethnic">voice</instrVoice>
     <instrVoice code="wa" label="Woodwinds - Flute">Fl</instrVoice>
     <instrVoice code="wb" label="Woodwinds - Oboe">Ob</instrVoice>
-    <instrVoice code="wc" label="Woodwinds - Clarinet">cl.</instrVoice>
-    <instrVoice code="wd" label="Woodwinds - Bassoon">Fg</instrVoice>
+    <instrVoice code="wc" label="Woodwinds - Clarinet">Cl</instrVoice>
+    <instrVoice code="wd" label="Woodwinds - Bassoon">Fag</instrVoice>
     <instrVoice code="we" label="Woodwinds - Piccolo">picc.</instrVoice>
     <instrVoice code="wf" label="Woodwinds - English horn">cor.ingl.</instrVoice>
     <instrVoice code="wg" label="Woodwinds - Bass clarinet">cl.b.</instrVoice>
