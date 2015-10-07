@@ -156,6 +156,11 @@
 
 			<xsl:if test="m:title[@type='main' or not(@type)][text()]">
 				<h1>
+					<xsl:if test="m:meiHead/m:workDesc/m:work/m:identifier/text()">
+						<xsl:value-of select="m:meiHead/m:workDesc/m:work/m:identifier[1]"/>
+						<xsl:text>   </xsl:text>
+					</xsl:if>
+
 					<xsl:for-each select="m:title[@type='main' or not(@type)][text()]">
 						<xsl:element name="span">
 							<xsl:call-template name="maybe_print_lang"/>
@@ -206,26 +211,19 @@
 						<xsl:call-template name="maybe_print_br"/>
 					</xsl:for-each>
 				</xsl:element>
-
 			</xsl:if>
 		</xsl:for-each>
 
+		<!-- Entstehungsdatum -->
+		<xsl:apply-templates
+			select="m:meiHead/m:workDesc/m:work/m:history[m:creation[*/text()] or m:p[text()]]"
+			mode="history"/>
 
-		<!-- other identifiers -->
-		<xsl:if test="m:meiHead/m:workDesc/m:work/m:identifier/text()">
-			<p>
-				<xsl:for-each select="m:meiHead/m:workDesc/m:work/m:identifier[text()]">
-					<!--<xsl:variable name="type"><xsl:apply-templates select="@type"/></xsl:variable>
-					<xsl:value-of select="concat($type,' ',.)"/>-->
-					<xsl:apply-templates select="@type"/>
-					<xsl:text> </xsl:text>
-					<xsl:value-of select="."/>
-					<xsl:if test="position()&lt;last()">
-						<br/>
-					</xsl:if>
-				</xsl:for-each>
-			</p>
-		</xsl:if>
+
+		<!-- Besetzung -->
+		<xsl:apply-templates
+			select="m:perfMedium[m:instrumentation[m:instrVoice or m:instrVoiceGrp] or m:castList/m:castItem]"
+			mode="subLevel"/>
 
 		<xsl:for-each
 			select="m:meiHead/
@@ -267,12 +265,16 @@
 			</div>
 		</xsl:for-each>
 
+		<!-- related files -->
+		<xsl:apply-templates select="m:meiHead/m:workDesc/m:work/m:relationList"/>
+
+		<!-- Werkgeschichte -->
 		<xsl:for-each select="m:meiHead/
 			m:workDesc/
 			m:work/
 			m:notesStmt">
 			<xsl:if test="m:annot[@type='general_description'][text()]">
-				<p>
+				<p><span class="p_heading">Werkgeschichte: </span>
 					<xsl:apply-templates select="m:annot[@type='general_description']"/>
 				</p>
 			</xsl:if>
@@ -284,14 +286,6 @@
 				</p>
 			</xsl:for-each>
 		</xsl:for-each>
-
-		<!-- related files -->
-		<xsl:apply-templates select="m:meiHead/m:workDesc/m:work/m:relationList"/>
-
-		<!-- work history -->
-		<xsl:apply-templates
-			select="m:meiHead/m:workDesc/m:work/m:history[m:creation[*/text()] or m:p[text()]]"
-			mode="history"/>
 
 		<!-- works with versions: show global sources and performances before version details -->
 		<xsl:if test="count(m:meiHead/m:workDesc/m:work/m:expressionList/m:expression)&gt;1">
@@ -738,9 +732,6 @@
 		</xsl:if>
 
 		<xsl:apply-templates select="m:titleStmt/m:respStmt[m:persName]"/>
-		<xsl:apply-templates
-			select="m:perfMedium[m:instrumentation[m:instrVoice or m:instrVoiceGrp] or m:castList/m:castItem]"
-			mode="subLevel"/>
 		<xsl:apply-templates select="m:tempo[text()]"/>
 		<xsl:if test="m:meter[normalize-space(concat(@count,@unit,@sym))]">
 			<p>
@@ -1114,7 +1105,7 @@
 				<xsl:for-each select="m:instrumentation[*]">
 					<div class="relation_list">
 						<xsl:if test="position()=1 and $full">
-							<span class="p_heading relation_list_label">Instrumentation: </span>
+							<span class="p_heading relation_list_label">Besetzung: </span>
 						</xsl:if>
 						<xsl:apply-templates select="m:instrVoiceGrp"/>
 						<xsl:apply-templates select="m:instrVoice[not(@solo='true')][text()]"/>
@@ -1256,11 +1247,11 @@
 		<!-- composition history -->
 		<xsl:if test="m:creation/m:date[text()] or m:creation/m:geogName[text()]">
 			<xsl:if test="position()=1">
-				<p><span class="p_heading">Composition: </span>
+				<p>
 					<xsl:apply-templates select="m:creation/m:geogName"/>
 					<xsl:if test="m:creation/m:date[text()] and m:creation/m:geogName[text()]"
 						><xsl:text> </xsl:text></xsl:if>
-					<xsl:apply-templates select="m:creation/m:date"/>.</p>
+					<xsl:apply-templates select="m:creation/m:date"/></p>
 			</xsl:if>
 		</xsl:if>
 
