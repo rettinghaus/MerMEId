@@ -4,63 +4,40 @@
     Please note: Abbreviations containing other abbreviations 
     (for example "fl.picc.", also containing the abbreviations "fl." and "picc.") 
     must appear BEFORE the shorter abbreviations in order to resolve correctly. 
--->    
+-->  
+
 <p xmlns="http://www.music-encoding.org/ns/mei">
     <choice>
-        <abbr>tamb.picc.</abbr>
-        <expan>tamburo piccolo</expan>
-    </choice>
-    <choice>
-        <abbr>A*</abbr>
-        <expan>Solo-Alt</expan>
-    </choice>
-    <choice>
-        <abbr>A</abbr>
-        <expan>Alt</expan>
+        <abbr>A.</abbr>
+        <expan>alto</expan>
     </choice>
     <choice>
         <abbr>arm.</abbr>
-        <expan>armonium</expan>
+        <expan>armonium (harmonium)</expan>
     </choice>
     <choice>
         <abbr>arp.</abbr>
         <expan>arpa</expan>
     </choice>
     <choice>
-        <abbr>B*</abbr>
-        <expan>Solo-Bass</expan>
-    </choice>
-    <choice>
-        <abbr>B</abbr>
-        <expan>Bass</expan>
+        <abbr>B.</abbr>
+        <expan>basso (bass)</expan>
     </choice>
     <choice>
         <abbr>Bar.</abbr>
-        <expan>baritono</expan>
-    </choice>
-    <choice>
-        <abbr>Bc</abbr>
-        <expan>Basso continuo</expan>
-    </choice>
-    <choice>
-        <abbr>BR-CPEB</abbr>
-        <expan>Bach-Repertorium Carl Philipp Emanuel Bach</expan>
-    </choice>
-    <choice>
-        <abbr>BR-JEB</abbr>
-        <expan>Bach-Repertorium Johann Ernst Bach</expan>
+        <expan>baritono (baritone)</expan>
     </choice>
     <choice>
         <abbr>camp.</abbr>
-        <expan>campane</expan>
+        <expan>campane (bell)</expan>
     </choice>
     <choice>
         <abbr>cast.</abbr>
-        <expan>castagnette</expan>
+        <expan>castagnette (castanets)</expan>
     </choice>
     <choice>
         <abbr>cb.</abbr>
-        <expan>contrabbasso</expan>
+        <expan>contrabbasso (double bass)</expan>
     </choice>
     <choice>
         <abbr>cel.</abbr>
@@ -68,55 +45,83 @@
     </choice>
     <choice>
         <abbr>cfg.</abbr>
-        <expan>contrafagotto</expan>
+        <expan>contrafagotto (contrabassoon)</expan>
     </choice>
     <choice>
         <abbr>cl.b.</abbr>
-        <expan>clarinetto basso</expan>
+        <expan>clarinetto basso (bass clarinet)</expan>
     </choice>
     <choice>
-        <abbr>Cl</abbr>
-        <expan>Klarinette</expan>
+        <abbr>cl.</abbr>
+        <expan>clarinetto (clarinet)</expan>
     </choice>
     <choice>
         <abbr>cmplli.</abbr>
-        <expan>campanelli</expan>
+        <expan>campanelli (glockenspiel)</expan>
+    </choice>
+    <choice>
+        <abbr>CNA</abbr>
+        <expan>Carl Nielsen Arkivet (The Carl Nielsen Archive, The Royal Library, Copenhagen)</expan>
+    </choice>
+    <choice>
+        <abbr>CNS</abbr>
+        <expan>Carl Nielsens Samling (The Carl Nielsen Collection, The Royal Library, Copenhagen)</expan>
     </choice>
     <choice>
         <abbr>cnt.</abbr>
-        <expan>cornetto</expan>
+        <expan>cornetta (cornet)</expan>
+    </choice>
+    <choice>
+        <abbr>CNU</abbr>
+        <expan>Carl Nielsen Udgaven (The Carl Nielsen Edition. The Royal Library: Copenhagen 1998–2009)</expan>
     </choice>
     <choice>
         <abbr>cor.ingl.</abbr>
-        <expan>corno inglese</expan>
+        <expan>corno inglese (cor anglais)</expan>
     </choice>
     <choice>
-        <abbr>Cor</abbr>
-        <expan>Corno</expan>
+        <abbr>cor.</abbr>
+        <expan>corno (horn)</expan>
     </choice>
     <choice>
-        <abbr>Fag</abbr>
-        <expan>Fagott</expan>
+        <abbr>CtrT.</abbr>
+        <expan>contratenore (countertenor)</expan>
+    </choice>
+    <choice>
+        <abbr>DFS</abbr>
+        <expan>Dan Fogs Samling</expan>
+    </choice>
+    <choice>
+        <abbr>fg.</abbr>
+        <expan>fagotto (bassoon)</expan>
     </choice>
     <choice>
         <abbr>fl.gr.</abbr>
-        <expan>flauto grande</expan>
+        <expan>flauto grande (flute)</expan>
     </choice>
     <choice>
         <abbr>fl.picc.</abbr>
-        <expan>flauto piccolo</expan>
+        <expan>flauto piccolo (piccolo)</expan>
     </choice>
     <choice>
-        <abbr>Fl</abbr>
-        <expan>Traversflöte</expan>
+        <abbr>fl.</abbr>
+        <expan>flauto (flute)</expan>
+    </choice>
+    <choice>
+        <abbr>flic.sopr.</abbr>
+        <expan>flicorno soprano</expan>
+    </choice>
+    <choice>
+        <abbr>flic.ctrl.</abbr>
+        <expan>flicorno contralto</expan>
     </choice>
     <choice>
         <abbr>flic.bar.</abbr>
-        <expan>flicorno baritono</expan>
+        <expan>flicorno baritono (euphonium)</expan>
     </choice>
     <choice>
         <abbr>flic.ten.</abbr>
-        <expan>flicorno tenore</expan>
+        <expan>flicorno tenore (baritone)</expan>
     </choice>
     <choice>
         <abbr>fol.</abbr>
@@ -141,12 +146,16 @@
         <expan>glockenspiel</expan>
     </choice>
     <choice>
-        <abbr>gong.</abbr>
-        <expan>gongong</expan>
+        <abbr>gr.c.</abbr>
+        <expan>gran cassa (bass drum)</expan>
     </choice>
     <choice>
-        <abbr>gr.c.</abbr>
-        <expan>gran cassa</expan>
+        <abbr>keyb.</abbr>
+        <expan>keyboard instrument</expan>
+    </choice>
+    <choice>
+        <abbr>MezzS.</abbr>
+        <expan>mezzosoprano</expan>
     </choice>
     <choice>
         <abbr>ob.</abbr>
@@ -154,7 +163,7 @@
     </choice>
     <choice>
         <abbr>org.</abbr>
-        <expan>organo</expan>
+        <expan>organo (organ)</expan>
     </choice>
     <choice>
         <abbr>perc.</abbr>
@@ -162,35 +171,39 @@
     </choice>
     <choice>
         <abbr>pf.</abbr>
-        <expan>pianoforte</expan>
+        <expan>pianoforte (piano)</expan>
+    </choice>
+    <choice>
+        <abbr>tamb.picc.</abbr>
+        <expan>tamburo piccolo (snare drum)</expan>
     </choice>
     <choice>
         <abbr>picc.</abbr>
-        <expan>(flauto) piccolo</expan>
+        <expan>flauto piccolo (piccolo)</expan>
     </choice>
     <choice>
         <abbr>pno.</abbr>
-        <expan>pianoforte</expan>
+        <expan>pianoforte (piano)</expan>
     </choice>
     <choice>
         <abbr>ptti.</abbr>
-        <expan>piatti</expan>
+        <expan>piatti (cymbals)</expan>
     </choice>
     <choice>
         <abbr>ptto.sosp.</abbr>
-        <expan>piatto sospeso</expan>
+        <expan>piatto sospeso (suspended cymbal)</expan>
     </choice>
     <choice>
         <abbr>rgnlla.</abbr>
         <expan>raganella</expan>
     </choice>
     <choice>
-        <abbr>S*</abbr>
-        <expan>Solo-Sopran</expan>
+        <abbr>SATB</abbr>
+        <expan>soprano, alto, tenore, basso (mixed choir)</expan>
     </choice>
     <choice>
-        <abbr>S</abbr>
-        <expan>Sopran</expan>
+        <abbr>S.</abbr>
+        <expan>soprano</expan>
     </choice>
     <choice>
         <abbr>str4tet</abbr>
@@ -202,15 +215,15 @@
     </choice>
     <choice>
         <abbr>T.</abbr>
-        <expan>tenore</expan>
+        <expan>tenore (tenor)</expan>
     </choice>
     <choice>
         <abbr>tam.</abbr>
-        <expan>tam-tam</expan>
+        <expan>tam tam (tom tom)</expan>
     </choice>
     <choice>
         <abbr>tamb.</abbr>
-        <expan>tamburo</expan>
+        <expan>tamburo (drum)</expan>
     </choice>
     <choice>
         <abbr>tb.</abbr>
@@ -218,43 +231,43 @@
     </choice>
     <choice>
         <abbr>tbno.</abbr>
-        <expan>tamburino</expan>
+        <expan>tamburino (tambourine)</expan>
     </choice>
     <choice>
-        <abbr>Timp</abbr>
-        <expan>Pauken</expan>
+        <abbr>timp.</abbr>
+        <expan>timpani</expan>
     </choice>
     <choice>
-        <abbr>Tr</abbr>
-        <expan>Tromba</expan>
+        <abbr>tr.</abbr>
+        <expan>tromba (trumpet)</expan>
     </choice>
     <choice>
         <abbr>trb.a.</abbr>
-        <expan>trombone alto</expan>
+        <expan>trombone alto (alto trombone)</expan>
     </choice>
     <choice>
         <abbr>trb.b.</abbr>
-        <expan>trombone basso</expan>
+        <expan>trombone basso (bass trombone)</expan>
     </choice>
     <choice>
         <abbr>trb.t.</abbr>
-        <expan>trombone tenore</expan>
+        <expan>trombone tenore (tenor trombone)</expan>
     </choice>
     <choice>
-        <abbr>Trb.</abbr>
-        <expan>Trombone</expan>
+        <abbr>trb.</abbr>
+        <expan>trombone</expan>
     </choice>
     <choice>
         <abbr>trgl.</abbr>
-        <expan>triangolo</expan>
+        <expan>triangolo (triangel)</expan>
     </choice>
     <choice>
-        <abbr>Va</abbr>
-        <expan>Viola</expan>
+        <abbr>va.</abbr>
+        <expan>viola</expan>
     </choice>
     <choice>
-        <abbr>Vc</abbr>
-        <expan>Violoncello</expan>
+        <abbr>vc.</abbr>
+        <expan>violoncello</expan>
     </choice>
     <choice>
         <abbr>vl.1</abbr>
@@ -277,11 +290,15 @@
         <expan>violoncello</expan>
     </choice>
     <choice>
-        <abbr>Vle</abbr>
-        <expan>Viole</expan>
+        <abbr>vle.</abbr>
+        <expan>viole (violas)</expan>
     </choice>
     <choice>
         <abbr>ww.</abbr>
         <expan>woodwinds</expan>
+    </choice>
+    <choice>
+        <abbr>xil.</abbr>
+        <expan>xilofono (xylophone)</expan>
     </choice>
 </p>
