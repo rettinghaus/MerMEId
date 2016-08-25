@@ -8,8 +8,8 @@ function next(elem) {
 
 function setPageTitle() {
     if(document.title) {
-        if(document.getElementById('work_identifier').innerHTML != '') {
-            document.title = 'MerMEId - '+document.getElementById('work_identifier').innerHTML;
+        if(document.getElementById('work_identifier≡≡c').innerHTML != '') {
+            document.title = 'MerMEId - '+document.getElementById('work_identifier≡≡c').innerHTML;
         }
     }
 }
@@ -29,7 +29,21 @@ function getInternetExplorerVersion()
   return rv;
 }
 
+// Bugfix: turn off stuck loading indicator 
+function turnOffLoadingIndicator(msg) {
+	var x = document.getElementsByClassName("xforms-loading-loading");
+	var i;
+	for (i = 0; i < x.length; i++) {
+	// The alert is necessary to delay the style change... sorry!
+	if (msg!='') {
+	   alert(msg);
+	}
+	x[i].style.visibility = "";
+	}
+}
+
 function initialize() {
     setPageTitle();
 }
+
 

@@ -30,7 +30,7 @@
 		
 		<xf:group ref="instance('data-instance')/m:meiHead/m:workDesc/m:work/m:history">
 			
-			<dcm:history-input/>
+			<dcm:history-input id="history-input-work"/>
 
 			<!-- List work level performances -->
 			<dcm:performance-list ref=".[m:eventList[@type='performances']//text() or
@@ -44,7 +44,7 @@
 			</dcm:performance-list>
 		</xf:group> 
 
-		<!-- Show "work level" performances entered at expression level, if any (this is an exception)	-->
+		<!-- Show "work level" performances entered at expression level, if any	-->
 		<xf:group ref="instance('data-instance')/m:meiHead/m:workDesc/m:work/m:expressionList[count(m:expression)=1]/m:expression/m:history[m:eventList//text()]">
 			<h:p>[Performance entered at expression (version) level]</h:p>
 			<dcm:performance-list>
@@ -64,17 +64,17 @@
 				<h:div class="vertical_spacer"/>
 				<h:div class="vertical_spacer"/>
 				<!-- get expression title -->
-				<xxf:variable name="title" select="m:titleStmt/m:title[1]"/>
+				<xf:var name="title" select="m:titleStmt/m:title[1]"/>
 				<h:fieldset>
 					<h:legend>Version history 
 						<xf:group ref=".[normalize-space($title)!='']">
 							<xf:output value="concat(' - ',$title)"/>
 						</xf:group>
-						<h:a class="help">?<h:span class="comment">History information may be given at work level 
+						<h:a class="help">&#160;?<h:span class="comment">History information may be given at work level 
 							and at version level. 
 							Versions are defined on the Music tab.</h:span></h:a>
 					</h:legend>
-					<xf:group ref="m:history">
+					<xf:group ref="m:history" id="history-input-expression">
 						<dcm:history-input/>
 						<!-- expression-level performances -->
 						<dcm:performance-list>

@@ -10,6 +10,7 @@
 -->
 
 
+
 <xsl:stylesheet version="1.0" xmlns="http://www.w3.org/1999/xhtml" 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:m="http://www.music-encoding.org/ns/mei" 
@@ -26,6 +27,7 @@
 	<xsl:output method="xml" encoding="UTF-8" 
 		cdata-section-elements="" 
 		omit-xml-declaration="yes"/>
+	
 	
 	<xsl:strip-space elements="*"/>
 
@@ -48,12 +50,12 @@
 
 				<xsl:variable name="catalogue_no">
 					<xsl:value-of
-						select="m:meiHead/m:workDesc/m:work/m:identifier[@type=$file_context]"/>
+						select="m:meiHead/m:workDesc/m:work/m:identifier[@label=$file_context]"/>
 				</xsl:variable>
 
 				<div class="info_bar {$file_context}">
 					<xsl:if
-						test="m:meiHead/m:workDesc/m:work/m:identifier[@type=$file_context]/text()">
+						test="m:meiHead/m:workDesc/m:work/m:identifier[@label=$file_context]/text()">
 						<span class="list_id">
 							<xsl:value-of select="$file_context"/>
 							<xsl:text> </xsl:text>
@@ -104,32 +106,38 @@
 				<xsl:otherwise>true</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:element name="a">
-			<xsl:attribute name="href">
-				<xsl:choose>
-					<xsl:when test="$mermeid_crossref='true'">
-						<!-- This line is different -->
-						<xsl:value-of select="concat('http://',$hostname,'/storage/',$coll_dir,'/document.xq?doc=',@target)"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="@target"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:attribute>
-			<xsl:apply-templates select="@label"/>
+		<xsl:variable name="href">
+			<xsl:choose>
+				<xsl:when test="$mermeid_crossref='true'">
+					<!-- This line is different from mei_to_html.xsl-->
+					<xsl:value-of select="concat('document.xq?doc=',@target)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="@target"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="label">
+			<xsl:choose>
+				<xsl:when test="normalize-space(substring-after(@label,':'))"><xsl:value-of select="normalize-space(substring-after(@label,':'))"/></xsl:when>
+				<xsl:otherwise><xsl:apply-templates select="@label"/></xsl:otherwise>
+			</xsl:choose>
 			<xsl:if test="not(@label) or @label=''">
 				<xsl:value-of select="@target"/>
 			</xsl:if>
-		</xsl:element>
+		</xsl:variable>
+		<a href="{$href}" title="{$label}"><xsl:value-of select="$label"/></a>&#160;
 		<xsl:if test="$mermeid_crossref='true'">
 			<!-- get collection name and number from linked files -->
+			<!-- could also be: <xsl:variable name="fileName"
+				select="concat(concat($settings/dcm:parameters/dcm:server_name,$settings/dcm:parameters/dcm:document_root,@target))"/>-->
 			<xsl:variable name="fileName"
-				select="concat('http://',$hostname,'/storage/',$coll_dir,'/data/',@target)"/>
+				select="concat($settings/dcm:parameters/dcm:server_name,$settings/dcm:parameters/dcm:exist_dir,$coll_dir,'/data/',@target)"/>
 			<xsl:variable name="linkedDoc" select="document($fileName)"/>
 			<xsl:variable name="file_context"
 				select="$linkedDoc/m:mei/m:meiHead/m:fileDesc/m:seriesStmt/m:identifier[@type='file_collection']"/>
 			<xsl:variable name="catalogue_no"
-				select="$linkedDoc/m:mei/m:meiHead/m:workDesc/m:work/m:identifier[@type=$file_context]"/>
+				select="$linkedDoc/m:mei/m:meiHead/m:workDesc/m:work/m:identifier[@label=$file_context]"/>
 			<xsl:variable name="output">
 				<xsl:value-of select="$file_context"/>
 				<xsl:text> </xsl:text>
@@ -148,7 +156,7 @@
 				</xsl:choose>
 			</xsl:variable>
 			<xsl:if test="normalize-space($catalogue_no)!=''">
-				<xsl:value-of select="concat(' (',$output,')')"/>
+				<a class="work_number_reference" href="{$href}" title="{$label}"><xsl:value-of select="$output"/></a>
 			</xsl:if>
 		</xsl:if>
 	</xsl:template>
@@ -156,9 +164,7 @@
 	<!-- omit music details shown in the incipits -->
 	<xsl:template match="m:meter"/>
 	<xsl:template match="m:tempo"/>
-	<xsl:template match="m:key[normalize-space(concat(@pname,@accid,@mode))]"/>
 	<xsl:template match="m:incipText"/>
-	
 	
 	<!-- Only show last revision instead of full colophon -->
 	<xsl:template match="*" mode="colophon">

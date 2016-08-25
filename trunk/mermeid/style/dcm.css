@@ -29,8 +29,7 @@ h3 {
 
 p {
     line-height: 1.4em;
-    margin: 0;
-    padding-bottom: 8px;
+    margin: 0.5em 0 0 0;
 }
 
 a, a:link, a:visited, a:active, a:hover {
@@ -74,6 +73,10 @@ a img {
     line-height: 1.1em;
 }
 
+#header h2 {
+    font-size: 1.3em;
+}
+
 #header a:link, #header a:active, #header a:visited, #header a:hover {
     color: #fff;
 }
@@ -92,9 +95,10 @@ a img {
 
 #footer {
     color: #fff;
-    padding: 10px 20px 0 20px;
+    padding: 10px 20px 10px 20px;
     border-top: 1px solid #fff;
-    height: 48px;
+    min-height: 48px;
+    text-align: center;
 }
 
 #header a:link, #header a:active, #header a:visited, #header a:hover {
@@ -124,6 +128,22 @@ a img {
 
 .dcm_logo a {
     text-decoration: none;
+}
+
+.creativecommons {
+    font-size: 0.65em;
+}
+
+.creativecommons  {
+    font-size: 0.65em;
+}
+
+.creativecommons a {
+    text-decoration: none;
+}
+
+.creativecommons a:hover {
+    text-decoration: underline;
 }
 
 #toggle-anthologies {
@@ -277,6 +297,11 @@ p.illustration_text {
         color: #000;
         background-color: #fff;
     }
+    
+    a:link, a:visited, a:active {
+        color: #000;
+        text-decoration: none;
+    }
 
     #all {
         max-width: none;
@@ -284,11 +309,17 @@ p.illustration_text {
     }
     
     #main {
-        padding: 0;
-    }
+        padding: 5pt 0 0 0;
+        border-top: .1pt solid #000;    
+    }    
     
     #header {
         margin-bottom: 2em;
+    }
+    
+    #footer {
+        margin-top: 10pt;
+        border-top: .1pt solid #000;    
     }
     
     #dcm_logo,

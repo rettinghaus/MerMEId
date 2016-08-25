@@ -6,7 +6,7 @@
     xmlns:ev="http://www.w3.org/2001/xml-events"
     xmlns:xi="http://www.w3.org/2001/XInclude"
     xmlns:xxi="http://orbeon.org/oxf/xml/xinclude"
-    xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+    xmlns:xxf="http://orbeon.org/oxf/xml/xforms"
     xmlns:exforms="http://www.exforms.org/exf/1-0"
     xmlns:fr="http://orbeon.org/oxf/xml/form-runner"
     xmlns:saxon="http://saxon.sf.net/"
@@ -16,7 +16,7 @@
     
     <!--
         Component to edit work- or expression-level history information.
-        Danish Centre for Music Publication (DCM) 
+        Danish Centre for Music Editing (DCM) 
         Axel Teich Geertinger, 2014
         atge@kb.dk
     -->
@@ -42,26 +42,30 @@
         </xbl:resources>
 
         <xbl:implementation>
-            <xf:model>
+            <xf:model id="history_model">
+
                 <xf:instance xmlns="http://www.music-encoding.org/ns/mei" 
                     id="empty-instance"
-                    src="/../editor/forms/mei/model/empty_doc.xml" 
-                    xxforms:readonly="true"/>
+                    xxf:readonly="true">
+                  <xi:include href="../model/empty_doc.xml"  />
+		        </xf:instance>
+
             </xf:model>
         </xbl:implementation>
-        
+                                
         <xbl:template>
-            <!-- Local controls -->
 
             <xf:group xbl:attr="model context ref bind" xxbl:scope="outer">
-                
+
                 <xbl:content includes="xf|label,xf|help,xf|hint,xf|alert"/>                
+                
+             
                 <!-- Inner group -->
-                <xf:group appearance="xxforms:internal" xxbl:scope="inner">                    
+                <xf:group appearance="xxf:internal" xxbl:scope="inner" id="history_input_inner_grp">                    
                     <!-- Variables pointing to external single-node bindings -->
-                    <xxforms:variable name="binding" as="node()?">
-                        <xxforms:sequence select="." xxbl:scope="outer"/>
-                    </xxforms:variable>
+                    <xf:var name="binding" as="node()?">
+                        <xxf:value select="." xxbl:scope="outer"/>
+                    </xf:var>
                     
                     <xf:group ref="$binding">
                         
@@ -77,10 +81,10 @@
                                 label="Add creation date"
                                 origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:creation/m:date"/>
                             <xf:repeat nodeset="m:creation/m:date" id="repeat-creation-date">
-                                <dcm:date-editor ref="." style="display:inline;">
-                                    <xf:label class="fixed_width_mediumlong">Date of composition <h:a class="help">?<h:span class="comment">Date or time span 
-                                        of composition</h:span></h:a></xf:label>
-                                </dcm:date-editor>
+                                <h:span class="fixed_width_mediumlong">Date of composition <h:a class="help">&#160;?<h:span class="comment">Date or time span 
+                                    of composition</h:span></h:a></h:span><dcm:date-editor style="display:inline;"/>
+                                    
+                                
                                 <dcm:element-buttons 
                                     triggers="remove" 
                                     nodeset="m:date" 
@@ -107,34 +111,32 @@
                         </h:fieldset>
                         
                         <h:fieldset>
-                            <h:legend>History note <h:a class="help">?<h:span class="comment">Text
-                                explaining details and circumstances concerning the work's genesis and history</h:span></h:a></h:legend>
+                            <h:legend>History note <h:a class="help">&#160;?<h:span class="comment">Text
+                                explaining details and circumstances concerning the work's genesis and history</h:span></h:a>&#160;
+                            </h:legend>
                             <dcm:create
                                 nodeset="m:p"
                                 label="Add history note"
                                 origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:p"/>
                             <xf:repeat nodeset="m:p" id="repeat-history-p">
-                                <xf:textarea ref="." class="notes" mediatype="text/html">
-                                    <xf:label/>
-                                </xf:textarea>
+                                <fr:tinymce ref="."/>
                                 <dcm:element-buttons 
                                     triggers="remove" 
                                     nodeset="m:p" 
                                     index="repeat-history-p" 
-                                    origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:creation/m:p"/>					
-                                <dcm:attribute-editor/>
+                                    origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:p"/>					
                             </xf:repeat>
                         </h:fieldset>
                         
                         <h:fieldset>
-                            <h:legend>Time line <h:a class="help">?<h:span class="comment">A list of events related to the work. The list
+                            <h:legend>Time line <h:a class="help">&#160;?<h:span class="comment">A list of events related to the work. The list
                                 may contain all kinds of events, whether related to the compositional process, 
                                 the work's transmission, its reception or other aspects of its history</h:span></h:a>
                                 <dcm:attribute-editor ref="m:eventList[@type='history']"/>
                             </h:legend>
                             <dcm:create 
                                 nodeset="m:eventList[@type='history']"
-                                label="Add event"
+                                label="Add time line"
                                 origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:eventList[@type='history']"/>
                             <dcm:create ref="m:eventList[@type='history']" 
                                 nodeset="m:event"
@@ -142,12 +144,14 @@
                                 origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:eventList[@type='history']/m:event"/>
                             <xf:repeat nodeset="m:eventList[@type='history']/m:event" id="repeat-work-history">
                                 <h:fieldset>
-                                    <h:legend>Event <dcm:element-buttons 
+                                    <h:legend>Event 
+                                        <dcm:element-buttons 
                                         triggers="up down copy add del-parent-with-last" 
                                         nodeset="m:event" 
                                         index="repeat-work-history"
                                         origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:eventList[@type='history']/m:event"/>
-                                        <dcm:attribute-editor ref="."/>
+                                        <dcm:id/>
+                                        <dcm:attribute-editor/>
                                         <h:br clear="all"/>
                                     </h:legend>
                                     <dcm:create  
@@ -156,20 +160,19 @@
                                         origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:eventList[@type='history']/m:event/m:date"/>
                                     <h:div>
                                         <xf:group ref="m:date">
-                                            <xf:label class="fixed_width">Date <h:a class="help">?<h:span class="comment">Date 
-                                                or date span of the event</h:span></h:a></xf:label>
-                                            <dcm:date-editor ref="."/>
+                                            <h:span class="fixed_width">Date <h:a class="help">&#160;?<h:span class="comment">Date 
+                                                or date span of the event</h:span></h:a></h:span>
+                                            <dcm:date-editor/>
                                         </xf:group>
                                     </h:div>
-                                    <!-- this will be changed to use <desc> instead of <p> -->
                                     <dcm:create  
                                         nodeset="m:p"
                                         label="Add description"
                                         origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:eventList[@type='history']/m:event/m:p"/>
-                                    <xf:input ref="m:p" class="maxlong">
-                                        <xf:label class="fixed_width">Description <h:a class="help">?<h:span class="comment">A description of the 
+                                    <fr:tinymce ref="m:p">
+                                        <xf:label class="fixed_width">Description <h:a class="help">&#160;?<h:span class="comment">A description of the 
                                             event, e.g. "Third movement finished" or "Arranged for piano by NN"</h:span></h:a></xf:label>
-                                    </xf:input>
+                                    </fr:tinymce>
                                     <dcm:attribute-editor ref="m:p"/>
                                     <!-- end change -->
                                 </h:fieldset>					

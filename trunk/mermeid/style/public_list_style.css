@@ -5,6 +5,7 @@ h2 {
 input, select {
     background-color: #fff;
     color: #000;
+    border-radius: 4px;
 }
 
 div.spacer {
@@ -20,11 +21,12 @@ div.spacer div {
 div.filter {
     display: table-cell;
     vertical-align: top;
-    width: 350px;
+    width: 250px;
     background-color: #e8e8e8;
     font-size: 9pt;
     padding: 10px;
     margin: 15px 15px 0 0;
+    border-radius: 4px;
 }
 
 div.filter_block {
@@ -33,7 +35,7 @@ div.filter_block {
 }
 
 #query_input {
-    width: 280px;
+    width: 232px;
 }
 
 div.search_submit {
@@ -47,8 +49,10 @@ div.search_submit {
 
 div.genre_filter span.genre_indicator {
     display: inline-block;
-    width: 15px;
+    width: 16px;
+    height: 16px;
     margin-left: 5px;
+    border-radius: 8px;
 }
 
 div.genre_filter .selected {
@@ -69,7 +73,6 @@ a.genre_filter_row {
 
 .level1 {
     font-weight: bold;
-    font-size: 1.25em;
     text-transform: uppercase;
     padding-top: 10px;
 }
@@ -87,7 +90,8 @@ div.filter_block .label {
 
 #notbefore,
 #notafter {
-    width : 48px;
+    width : 40px;
+    font-size: 9pt;
 }
 
 #notbefore {
@@ -114,6 +118,7 @@ div.filter_block .label {
   padding: 3px 21px 4px 7px;
   background: url('/editor/images/filter_remove.png') no-repeat right 0 #515251;
   float: left;
+  border-radius: 4px;
 }
 
 #main a.filter_element:hover {
@@ -151,7 +156,7 @@ a.paging:hover {
     width: 26px;
     text-decoration: none;
     border: 1px solid #777;
-    border-radius: 2px;
+    border-radius: 4px;
     margin: 2px 2px 0 0;
     padding-top: 2px;
 }
@@ -191,55 +196,79 @@ div.results {
 }
 
 .result_row .title {
-    font-size: 14pt;
-    padding: 0 5px 8px 5px;
+    font-size: 11pt;
+    padding: 4px 5px 4px 5px;
+}
+
+.result_row .list_subtitle {
+    font-size: .9em;
 }
 
 .result_row .date {
-    font-size: .85em;
+    font-size: 8pt;
     float: right;
     padding: 2px 5px;
 }
-
-.info_bar {
-}
-
 .result_table {
-    display: table;
     width: 100%;
     margin: 15px 0;
     border: 1px solid #666;
-    background-color: #eee;
+    background-color: #ddd;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-.result_row {
-    display: table-row;
+.result_table:hover {
+    background-color: #fff;
+}
+
+.result_table:hover .list_id {
+    background-color: #666;
 }
 
 .result_cell {
-    display: table-cell;
+    vertical-align: top;
 }
 
-.info_bar div.genre_list {
-    display: table-row;
+
+.info_bar {
+    padding: 0;
+    font-size: 6px;
+}
+
+.info_bar .expan {
+    font-size: 10pt;
+}
+
+.info_bar .genre_list {
     float: left;
+    padding: 0 2px 0 0;
+}
+
+.genre_cell {
+    vertical-align: bottom;
 }
 
 .info_bar div.genre_list .genre_indicator {
-    display: table-cell;
+    display: block;
     width: 18px;
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
 }
 
 .result_table .list_id {
-    width: 5%;
-    background-color: #666;
+    width: 9%;
+    background-color: #444;
     white-space: nowrap;
-    padding: 3px 8px;
+    padding: 5px 8px 3px 8px;
+    color: #fff;
+    font-size: 9pt
 }
 
-#main .result_table .list_id a {
-    color: #fff;
-    font-weight: bold;
+.alternative_language {
+    font-size : .95em;
+    color: #666;
 }
 
 /* css for help and other pop-ups */
@@ -471,13 +500,23 @@ a:hover.abbr .expan {
     .result_table  {
         border: 0;
     }
+    
+    .genre_list {
+        display: none;
+    }
 
     .result_row .title,  
     .result_row .composer,
-    .info_bar .list_id {
-        padding: 0;
+    .info_bar .list_id,
+    .result_table .list_id {
+        padding: 2px;
         color: #000;
         background-color: #fff;
     }
     
+    a:link, a:visited, a:active {
+        color: #000;
+        text-decoration: none;
+    }
+
 }

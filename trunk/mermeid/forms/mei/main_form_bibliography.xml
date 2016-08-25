@@ -7,7 +7,6 @@
   xmlns:xf="http://www.w3.org/2002/xforms" 
   xmlns:xxf="http://orbeon.org/oxf/xml/xforms"
   xmlns:ev="http://www.w3.org/2001/xml-events"
-  xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
   xmlns:dcm="http://www.kb.dk/dcm">
   
   <h:div class="inputdiv">
@@ -37,7 +36,7 @@
         <xf:repeat nodeset="instance('bibl-type-instance')/m:biblList/m:bibl" 
           id="ref-type-menu-repeat">
           <xf:trigger submission="replace-form-with" appearance="minimal" class="non-standard_trigger">
-            <xf:label><h:img src="/../editor/images/add.gif" alt="Add"/> <xf:output 
+            <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/add.gif" alt="Add"/> <xf:output 
               value="concat(translate(substring(m:genre[1],1,1),'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ'),substring(m:genre[1],2))"/><xf:output 
                 value="if (m:genre[2]!='') then concat(', ',m:genre[2]) else ''"></xf:output>
             </xf:label>
@@ -58,7 +57,12 @@
                   position="after" 
                   origin="instance('bibl-type-instance')/m:biblList/m:bibl[index('ref-type-menu-repeat')]"/>
               </xf:action>
+              <xf:insert xxf:iterate="//*[not(@xml:id)]"
+                context="instance('data-instance')/m:meiHead/m:workDesc/m:work/m:biblList[index('repeat-listbibl')]"
+                origin="xxf:attribute('xml:id',concat(name(.),'_',substring(digest(string(random(true)), 'MD5', 'hex'),1,8)))"/>
               <xf:dispatch name="id-update" target="form-group"/>
+              <xf:dispatch name="id-update" target="form-group"/>
+              <xf:setvalue ref="xxf:instance('temp')/changed" value="'true'"/>
               <xxf:hide dialog="add-ref-dialog"/>
             </xf:action>
           </xf:trigger>
@@ -74,12 +78,19 @@
           <xf:repeat nodeset="instance('bibliography-instance')/m:biblList[not(normalize-space(m:head)) or m:head=instance('data-instance')/m:meiHead/m:fileDesc/m:seriesStmt/m:identifier[@type='file_collection']]" 
             id="std-bibl-repeat">
             <xf:repeat nodeset="m:bibl" id="std-bibl-menu-repeat">
+              <xf:var name="au" value="if (m:author[text()][1]) 
+                then concat(m:author[text()][1]/string(),': ')
+                else ''"/>
+              <xf:var name="ed" value="if (m:editor[text()] and not(../m:author[text()])) 
+                then concat(m:editor[text()][1],' (ed.):')
+                else ''"/>
+              <xf:var name="ti" value="if (string-length(m:title[text()][1])&gt;40) 
+                then concat(substring(m:title[text()][1],1,40),'...')
+                else m:title[text()][1]/string()"/>
+              <xf:var name="bibl_label" value="concat($au, $ed, $ti)"/>                                    
               <xf:trigger submission="replace-form-with" appearance="minimal">
-                <xf:label><h:img src="/../editor/images/add.gif" alt="Add"/> 
-                  <xf:output ref="m:author[text()]" value="concat(.[1],': ')"/>
-                  <xf:output ref="m:editor[text() and not(../m:author[text()])]" value="concat(.[1],': ')"/>
-                  <xf:output ref="m:title[text() and string-length()&gt;40][1]" value="concat(substring(.,1,40),'...')"/>
-                  <xf:output ref="m:title[text() and string-length()&lt;41][1]" value="."/>
+                <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/add.gif" alt="Add"/> 
+                  <xf:output value="$bibl_label"/>
                 </xf:label>
                 <xf:action ev:event="DOMActivate">
                   <xf:action if="count(instance('data-instance')/m:meiHead/m:workDesc/m:work/m:biblList[index('repeat-listbibl')]/m:bibl)&gt;0">
@@ -97,6 +108,9 @@
                       position="after" 
                       origin="instance('bibliography-instance')/m:biblList[not(normalize-space(m:head)) or m:head=instance('data-instance')/m:meiHead/m:fileDesc/m:seriesStmt/m:identifier[@type='file_collection']][index('std-bibl-repeat')]/m:bibl[index('std-bibl-menu-repeat')]"/>
                   </xf:action>
+                  <xf:insert xxf:iterate="//*[not(@xml:id)]"
+                    context="instance('data-instance')/m:meiHead/m:workDesc/m:work/m:biblList[index('repeat-listbibl')]"
+                    origin="xxf:attribute('xml:id',concat(name(.),'_',substring(digest(string(random(true)), 'MD5', 'hex'),1,8)))"/>
                   <xf:dispatch name="id-update" target="form-group"/>
                   <xxf:hide dialog="add-ref-dialog"/>
                 </xf:action>
@@ -112,10 +126,10 @@
         <h:fieldset>
           <h:legend>
             <xf:output value="if (normalize-space(m:head)) then m:head else '[Bibliography]'"/>
-            <h:a class="help">?<h:span class="comment">A list of bibliographic references related to the work.
-              These may range from documentary materiale (for instance, evidence 
-              for the existence of a work now lost) and primary texts such as the comsposer's letters mentioning this   
-              work, to secondary literature (for instance, analytical or historical surveys). <h:br/>
+            <h:a class="help">&#160;?<h:span class="comment">A list of bibliographic references related to the work.
+              These may range from documentary materials (for instance, evidence 
+              for the existence of a work now lost) and manuscript documents such as the composer's letters 
+              mentioning this work, to secondary literature (for instance, analytical or historical surveys). <h:br/>
               Multiple bibliographies may be created to group different types of references.<h:br/> 
               References related to specific performances (reviews or evidence) may be given with the individual performances at the 
               "History" tab instead.</h:span></h:a>
@@ -134,7 +148,7 @@
               origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:biblList[1]/m:head"/>
             <xf:repeat nodeset="m:head" id="repeat-bibl-head">
               <xf:input ref=".">
-                <xf:label>Heading: <h:a class="help">?<h:span class="comment">A heading for this bibliography for display. 
+                <xf:label>Heading: <h:a class="help">&#160;?<h:span class="comment">A heading for this bibliography for display. 
                   If multiple bibliographies are used, the heading may be used to distinguish different types of bibliographic
                   lists, e.g. "Primary Texts", "Bibliography", and "Documentation".</h:span></h:a></xf:label>
               </xf:input>
@@ -145,7 +159,7 @@
           </h:div>
           <h:div class="vertical_spacer"/>
           <xf:trigger ref=".[not(m:bibl)]">
-            <xf:label><h:img src="/../editor/images/add.gif" alt="Add"/> Add reference</xf:label>
+            <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/add.gif" alt="Add"/> Add reference</xf:label>
             <xf:action ev:event="DOMActivate">
               <xxf:show dialog="add-ref-dialog"/>
             </xf:action>
@@ -159,8 +173,6 @@
                     <xf:output value="position()"/>&#160;
                   </h:td>
                   <h:td nowrap="nowrap">
-                    <dcm:id ref="."/>
-                    <dcm:attribute-editor ref="."/>
                     &#160;
                     <h:span class="genre">
                     <xf:repeat nodeset="m:genre"><xf:output 
@@ -184,9 +196,9 @@
                   <h:td nowrap="nowrap">
                     <xf:group ref=".[instance('temp')/file_exists='true']">
                       <xf:trigger appearance="minimal">
-                        <xf:label><h:img src="/../editor/images/edit.gif" title="Open reference editor"/></xf:label>
+                        <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/edit.gif" title="Open reference editor"/></xf:label>
                         <xf:action ev:event="DOMActivate">
-                          <xxf:variable name="uri" 
+                          <xf:var name="uri" 
                             select="concat(instance('parameters')/dcm:orbeon_dir,'?uri=',instance('parameters')/dcm:form_home,'details-reference.xml&amp;doc=',instance('parameters')/dcm:xml_file,'&amp;id=',@xml:id)"/>
                           <xf:insert context="." origin="xxf:set-session-attribute('return_uri',instance('parameters')/dcm:this_page)"/>
                           <xf:action if="instance('temp')/changed='true'">
@@ -209,7 +221,7 @@
                     index="repeat-references"
                     origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:biblList[1]/m:bibl[1]"/><xf:trigger appearance="minimal"
                       class="non-standard_button">
-                      <xf:label><h:img src="/../editor/images/add.gif" alt="Add"/></xf:label>
+                      <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/add.gif" alt="Add"/></xf:label>
                       <xf:action ev:event="DOMActivate">
                         <xxf:show dialog="add-ref-dialog"/>
                       </xf:action>
@@ -218,6 +230,8 @@
                       nodeset="m:bibl" 
                       index="repeat-references"
                       origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:biblList[1]/m:bibl[1]"/>
+                    <dcm:id ref="."/>
+                    <dcm:attribute-editor ref="."/>
                   </h:td>
                 </h:tr>
               </xf:repeat>

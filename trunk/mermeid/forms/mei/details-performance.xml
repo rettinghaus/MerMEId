@@ -15,7 +15,7 @@
     
     <!--
         Performance data editor
-        Danish Centre for Music Publication (DCM) 
+        Danish Centre for Music Editing (DCM) 
         Axel Teich Geertinger, 2012
         atge@kb.dk
     -->
@@ -27,6 +27,9 @@
         <h:meta http-equiv="Content-Type" content="application/xhtml+xml"/>
         
         <h:script type="text/javascript" src="http:/editor/js/editor.js"/>
+        <h:script type="text/javascript" src="http:/editor/js/tinymce.js">
+            //<!-- tinymce configuration -->
+        </h:script>
         
         <h:style type="text/css" media="all"> 
             @import "/editor/style/tab_style.css"; 
@@ -38,15 +41,16 @@
         <xi:include href="details-form-model.xml" parse="xml"/>
         
         <!-- XBL components -->
+        <xi:include href="includes/attribute_editor.xbl" parse="xml"/>
+        <xi:include href="includes/authority.xbl" parse="xml"/>
+        <xi:include href="includes/bibl-input.xbl" parse="xml"/>                                        
+        <xi:include href="includes/create.xbl" parse="xml"/>
+        <xi:include href="includes/date_editor.xbl" parse="xml"/>
+        <xi:include href="includes/dropdown_month_date.xbl" parse="xml"/>
         <xi:include href="includes/element_buttons.xbl" parse="xml"/>
         <xi:include href="includes/element_buttons_typed.xbl" parse="xml"/>
-        <xi:include href="includes/dropdown_month_date.xbl" parse="xml"/>
-        <xi:include href="includes/date_editor.xbl" parse="xml"/>
-        <xi:include href="includes/relator.xbl" parse="xml"/>
         <xi:include href="includes/id.xbl" parse="xml"/>
-        <xi:include href="includes/attribute_editor.xbl" parse="xml"/>
-        <xi:include href="includes/create.xbl" parse="xml"/>
-        <xi:include href="includes/bibl-input.xbl" parse="xml"/>                                        
+        <xi:include href="includes/relator.xbl" parse="xml"/>
         
     </h:head>
     
@@ -57,7 +61,7 @@
             <xf:group id="form-group">
                 
                 <xi:include href="edit-form-event-handlers.xml" parse="xml"/>
-                <xxf:variable name="uri" 
+                <xf:var name="uri" 
                     select="concat(instance('parameters')/dcm:orbeon_dir,
                     '?uri=',
                     instance('parameters')/dcm:form_home,
@@ -68,16 +72,16 @@
                     
                     <h:div style="float:right">
                         <xf:submit submission="save-to-file">
-                            <xf:label><h:img src="/../editor/images/save_small.png" alt="Save"/> Save</xf:label>
+                            <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/save_small.png" alt="Save"/> Save</xf:label>
                         </xf:submit>
                         <xf:submit submission="save-to-file">
-                            <xf:label><h:img src="/../editor/images/save_and_close.png" alt="Save and close"/> Save &amp; close</xf:label>
+                            <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/save_and_close.png" alt="Save and close"/> Save &amp; close</xf:label>
                             <xf:action ev:event="DOMActivate">
                                 <xf:load resource="{$uri}" show="replace"/>
                             </xf:action>
                         </xf:submit>
                         <xf:trigger>
-                            <xf:label><h:img src="/../editor/images/discard.png" alt="discard" title="Discard changes and close"/> Discard changes</xf:label>
+                            <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/discard.png" alt="discard" title="Discard changes and close"/> Discard changes</xf:label>
                             <xf:action ev:event="DOMActivate">
                                 <xf:load resource="{$uri}" show="replace"/>
                             </xf:action>
@@ -102,17 +106,16 @@
                     <h:legend>Performance</h:legend>
                         <h:div class="vertical_spacer"> </h:div>
                             <h:div>
-                                <dcm:date-editor ref="m:date">
-                                    <xf:label class="fixed_width">Date</xf:label>
-                                </dcm:date-editor>
+                                <h:span class="fixed_width">Date</h:span>
+                                <dcm:date-editor ref="m:date"/>                                
                             </h:div>
-                            <xf:input ref="m:geogName[@role='venue']" class="long">
+                            <xf:input ref="m:geogName[@role='venue']" class="maxlong">
                                 <xf:label class="fixed_width">Venue</xf:label>
                             </xf:input>
                             <dcm:attribute-editor ref="m:geogName[@role='venue']"/>
                             <h:br clear="all"/>
                             
-                            <xf:input ref="m:geogName[@role='place']" class="long">
+                            <xf:input ref="m:geogName[@role='place']" class="maxlong">
                                 <xf:label class="fixed_width">Place</xf:label>
                             </xf:input>
                             <dcm:attribute-editor ref="m:geogName[@role='place']"/>
@@ -124,7 +127,7 @@
                         origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:eventList[@type='performances']/m:event/m:corpName[@role='ensemble']"/>
                     <xf:repeat nodeset="m:corpName[@role='ensemble']" id="repeat-performance-ensemble">
                         <h:div>
-                            <xf:input ref="." class="long">
+                            <xf:input ref="." class="maxlong">
                                 <xf:label class="fixed_width">Ensemble</xf:label>
                             </xf:input>
                             <dcm:element-buttons-typed triggers="up down add remove"
@@ -138,38 +141,18 @@
                             <h:div class="persname-box">
                                 <h:div class="vertical_spacer"/>
                                 <h:div class="blocklabel strong">Persons</h:div>
-                                <h:div class="blocklabel">
-                                    <h:span class="fixed_width_long">Name</h:span>
-                                    <h:div class="horiz_spacer"/>
-                                    <h:span> Relation <h:a class="help">?<h:span class="comment">The person's relation to this
-                                        performance, e.g. "conductor" or "vocalist".<h:br/> The list is based on MARC
-                                        relators as defined at http://id.loc.gov/vocabulary/relators</h:span></h:a>
-                                    </h:span>
-                                </h:div>
-                                <dcm:create
-                                    nodeset="m:persName"
-                                    label="Add person"
-                                    origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:eventList[@type='performances']/m:event/m:persName[1]"/>
-                                <xf:repeat nodeset="m:persName" id="performance-relators-repeat">
-                                    <dcm:relator ref="."/>
-                                    <dcm:element-buttons triggers="add delete" nodeset="m:persName" index="performance-relators-repeat"
-                                        origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:eventList[@type='performances']/m:event/m:persName[1]"/>
-                                    <dcm:attribute-editor ref="."/>
-                                    <h:br/>
-                                </xf:repeat>
+                                <xi:include href="includes/person-input.xml"/>
                             </h:div>
                             <h:br clear="all"/>
-                            <h:div class="blocklabel strong">Description <h:a class="help">?<h:span class="comment">
+                            <h:div class="blocklabel strong">Description <h:a class="help">&#160;?<h:span class="comment">
                                 An optional description of the event, e.g. "First performance in Denmark".</h:span></h:a></h:div>
                             <dcm:create
                                 nodeset="m:p"
                                 label="Add description"
-                                origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:p"/>
+                                origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:eventList[@type='performances']/m:event/m:p"/>
                             <xf:repeat nodeset="m:p" id="performance-p-repeat">
                                 <h:div>
-                                    <xf:textarea ref="." class="notes" mediatype="text/html">
-                                        <xf:label/>
-                                    </xf:textarea>
+                                    <fr:tinymce ref="."/>	
                                     <dcm:element-buttons triggers="remove" nodeset="m:p" index="performance-p-repeat"
                                         origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:history/m:eventList[@type='performances']/m:event/m:p"/>
                                     <dcm:attribute-editor/>
@@ -178,7 +161,7 @@
                             <h:br clear="all"/>
                             <!-- single evidence reference using the event's "evidence" attribute (disabled)
                                 <xf:select1 ref="@evidence" class="maxlong">
-                                <xf:label class="fixed_width">Evidence <h:a class="help">?<h:span class="comment">Pointer to a bibliographic 
+                                <xf:label class="fixed_width">Evidence <h:a class="help">&#160;?<h:span class="comment">Pointer to a bibliographic 
                                 reference serving as main evidence for this performance.<h:br/>
                                 Go to the "Bibliography" tab to add references to the list.
                                 </h:span></h:a> </xf:label>
@@ -215,10 +198,6 @@
                             <h:td class="number_cell">
                                 <xf:output value="position()"/>&#160;
                             </h:td>
-                            <h:td nowrap="nowrap">
-                                <dcm:id/>
-                                <dcm:attribute-editor/>
-                            </h:td>
                             <h:td>  
                                 <xf:repeat nodeset="m:author"><xf:output 
                                     value="if ((position() &gt; 1) and (.!='')) then ', ' else ''"/><xf:output 
@@ -231,13 +210,13 @@
                                 <xf:output value="if (normalize-space(m:title[not(@level)])) then m:title[not(@level)] else ''"/>
                                 <xf:output value="if (normalize-space(m:creation[1]/m:date[1])) then concat('(',normalize-space(m:creation[1]/m:date[1]),')') else ''"/>
                                 <xf:output value="if (normalize-space(m:imprint[1]/m:date[1])) then concat('(',normalize-space(m:imprint[1]/m:date[1]),')') else ''"/>
-                                <xf:group ref=".[normalize-space(concat(m:author[1],m:recipient[1],m:title[@level='a'][1],m:title[@level='j'][1],m:title[@level='m'][1],m:creation[1]/m:date[1],m:imprint[1]/m:date[1]))='']"> [No title or author] </xf:group>
+                                <xf:group ref=".[normalize-space(concat(m:author[1],m:recipient[1],m:title[@level='a'][1],m:title[@level='j'][1],m:title[@level='m'][1],m:title[not(@level)][1],m:creation[1]/m:date[1],m:imprint[1]/m:date[1]))='']"> [No title or author] </xf:group>
                             </h:td>                  
                             <h:td nowrap="nowrap">
                                 <xf:trigger appearance="minimal">
-                                    <xf:label><h:img src="/../editor/images/edit.gif" title="Open reference editor"/></xf:label>
+                                    <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/edit.gif" title="Open reference editor"/></xf:label>
                                     <xf:action ev:event="DOMActivate">
-                                        <xxf:variable name="uri" 
+                                        <xf:var name="uri" 
                                             select="concat(instance('parameters')/dcm:orbeon_dir,'?uri=',instance('parameters')/dcm:form_home,'details-reference.xml&amp;doc=',instance('parameters')/dcm:xml_file,'&amp;id=',@xml:id)"/>
                                         <xf:insert context="." origin="xxf:set-session-attribute('return_uri',concat(instance('parameters')/dcm:this_page,'&amp;id=',instance('temp')/id))"/>
                                         <xf:action if="instance('temp')/changed='true'">
@@ -256,7 +235,7 @@
                                 index="repeat-review"
                                 origin="instance('bibl-type-instance')//m:bibl[m:genre='article' and m:genre='journal'][1]"/><!--<xf:trigger appearance="minimal"
                                     class="non-standard_button">
-                                    <xf:label><h:img src="/../editor/images/add.gif" alt="Add"/></xf:label>
+                                    <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/add.gif" alt="Add"/></xf:label>
                                     <xf:action ev:event="DOMActivate">
                                         <xxf:show dialog="add-ref-dialog"/>
                                     </xf:action>
@@ -265,6 +244,8 @@
                                     nodeset="m:bibl" 
                                     index="repeat-review"
                                     origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:biblList[1]/m:bibl[1]"/>-->
+                                <dcm:id/>
+                                <dcm:attribute-editor/>
                             </h:td>
                         </h:tr>
                         
@@ -276,7 +257,7 @@
                 
                 
                 <h:fieldset>
-                    <h:legend>Evidence <h:a class="help">?<h:span class="comment">A list of references to bibliographic items 
+                    <h:legend>Evidence <h:a class="help">&#160;?<h:span class="comment">A list of references to bibliographic items 
                         serving as evidence for this performance, such as concert programmes, announcements, or secondary literature</h:span></h:a></h:legend>
                     <dcm:create nodeset="m:biblList[m:head='Evidence']"
                         label="Add evidence bibliography"
@@ -285,7 +266,7 @@
                     <xf:group ref="m:biblList[m:head='Evidence']">
                         <xf:group ref=".[not(m:bibl)]">
                             <xf:trigger class="create_button">
-                                <xf:label><h:img src="/../editor/images/add.gif" alt="Add"/> Add reference</xf:label>
+                                <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/add.gif" alt="Add"/> Add reference</xf:label>
                                 <xf:action ev:event="DOMActivate">
                                     <xxf:show dialog="add-ref-dialog"/>
                                 </xf:action>
@@ -322,13 +303,13 @@
                                     <xf:output value="if (normalize-space(m:title[not(@level)])) then m:title[not(@level)] else ''"/>
                                     <xf:output value="if (normalize-space(m:creation[1]/m:date[1])) then concat('(',normalize-space(m:creation[1]/m:date[1]),')') else ''"/>
                                     <xf:output value="if (normalize-space(m:imprint[1]/m:date[1])) then concat('(',normalize-space(m:imprint[1]/m:date[1]),')') else ''"/>
-                                    <xf:group ref=".[normalize-space(concat(m:author[1],m:recipient[1],m:title[@level='a'][1],m:title[@level='j'][1],m:title[@level='m'][1],m:creation[1]/m:date[1],m:imprint[1]/m:date[1]))='']"> [No title or author] </xf:group>
+                                    <xf:group ref=".[normalize-space(concat(m:author[1],m:recipient[1],m:title[@level='a'][1],m:title[@level='j'][1],m:title[@level='m'][1],m:title[not(@level)][1],m:creation[1]/m:date[1],m:imprint[1]/m:date[1]))='']"> [No title or author] </xf:group>
                                 </h:td>                  
                                 <h:td nowrap="nowrap">
                                     <xf:trigger appearance="minimal">
-                                        <xf:label><h:img src="/../editor/images/edit.gif" title="Open reference editor"/></xf:label>
+                                        <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/edit.gif" title="Open reference editor"/></xf:label>
                                         <xf:action ev:event="DOMActivate">
-                                            <xxf:variable name="uri" 
+                                            <xf:var name="uri" 
                                                 select="concat(instance('parameters')/dcm:orbeon_dir,'?uri=',instance('parameters')/dcm:form_home,'details-reference.xml&amp;doc=',instance('parameters')/dcm:xml_file,'&amp;id=',@xml:id)"/>
                                             <xf:insert context="." origin="xxf:set-session-attribute('return_uri',concat(instance('parameters')/dcm:this_page,'&amp;id=',instance('temp')/id))"/>
                                             <xf:action if="instance('temp')/changed='true'">
@@ -347,7 +328,7 @@
                                     index="repeat-evidence-references"
                                     origin="instance('empty-instance')/m:meiHead/m:workDesc/m:work/m:biblList[1]/m:bibl[1]"/><xf:trigger appearance="minimal"
                                     class="non-standard_button">
-                                    <xf:label><h:img src="/../editor/images/add.gif" alt="Add"/></xf:label>
+                                    <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/add.gif" alt="Add"/></xf:label>
                                     <xf:action ev:event="DOMActivate">
                                         <xxf:show dialog="add-ref-dialog"/>
                                     </xf:action>
@@ -365,7 +346,8 @@
                         
                     </xf:group>
                     
-                    
+
+
                     <!-- reference types menu -->
                     <xxf:dialog id="add-ref-dialog" appearance="full" level="modal"
                         close="true" draggable="true" visible="false">
@@ -411,12 +393,19 @@
                             <xf:repeat nodeset="instance('bibliography-instance')/m:biblList[not(normalize-space(m:head)) or m:head=instance('data-instance')/m:meiHead/m:fileDesc/m:seriesStmt/m:identifier[@type='file_collection']]" 
                                 id="std-bibl-repeat">
                                 <xf:repeat nodeset="m:bibl" id="std-bibl-menu-repeat">
+                                    <xf:var name="au" value="if (m:author[text()][1]) 
+                                        then concat(m:author[text()][1]/string(),': ')
+                                        else ''"/>
+                                    <xf:var name="ed" value="if (m:editor[text()] and not(../m:author[text()])) 
+                                        then concat(m:editor[text()][1],' (ed.):')
+                                        else ''"/>
+                                    <xf:var name="ti" value="if (string-length(m:title[text()][1])&gt;40) 
+                                        then concat(substring(m:title[text()][1],1,40),'...')
+                                        else m:title[text()][1]/string()"/>
+                                    <xf:var name="bibl_label" value="concat($au, $ed, $ti)"/>                                    
                                     <xf:trigger submission="replace-form-with" appearance="minimal">
                                         <xf:label><h:img src="/../editor/images/add.gif" alt="Add"/> 
-                                            <xf:output ref="m:author[text()]" value="concat(.[1],': ')"/>
-                                            <xf:output ref="m:editor[text() and not(../m:author[text()])]" value="concat(.[1],': ')"/>
-                                            <xf:output ref="m:title[text() and string-length()&gt;40][1]" value="concat(substring(.,1,40),'...')"/>
-                                            <xf:output ref="m:title[text() and string-length()&lt;41][1]" value="."/>
+                                            <xf:output value="$bibl_label"/>
                                         </xf:label>
                                         <xf:action ev:event="DOMActivate">
                                             <xf:action if="count(instance('data-instance')/m:meiHead/m:workDesc/m:work//m:event[@xml:id=instance('temp')/id]/m:biblList[m:head='Evidence']/m:bibl)&gt;0">
@@ -446,6 +435,7 @@
                     <!-- end menu -->
                     
                     
+                    
                     <xxf:dialog id="exit-warning-dialog" appearance="full">
                         <!-- The requested URI must be stored in instance('temp')/target_uri prior to opening the dialog -->
                         <xf:label>Warning</xf:label>
@@ -456,7 +446,7 @@
                             To keep changes, choose "Save".
                         </h:p>    
                         <xf:trigger appearance="save_proceed_button">
-                            <xf:label><h:img src="/../editor/images/save_small.png" alt="Save" title="Save file and proceed"/> Save</xf:label>
+                            <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/save_small.png" alt="Save" title="Save file and proceed"/> Save</xf:label>
                             <xf:action ev:event="DOMActivate">
                                 <xf:dispatch name="language-update" target="form-group"/>
                                 <xf:send submission="save-to-file"/>
@@ -465,7 +455,7 @@
                             </xf:action>
                         </xf:trigger>
                         <xf:trigger>
-                            <xf:label><h:img src="/../editor/images/discard.png" alt="Discard" title="Discard changes and proceed"/> Discard</xf:label>
+                            <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/discard.png" alt="Discard" title="Discard changes and proceed"/> Discard</xf:label>
                             <xf:action ev:event="DOMActivate">
                                 <xf:load resource="{instance('temp')/target_uri}" show="replace"/>
                                 <xxf:hide dialog="exit-warning-dialog"/>

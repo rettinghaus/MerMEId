@@ -10,7 +10,7 @@
     
     <!--
         Standard instrumentations editor 
-        Danish Centre for Music Publication (DCM) 
+        Danish Centre for Music Editing (DCM) 
         Axel Teich Geertinger, 2012
         atge@kb.dk
     -->
@@ -22,21 +22,21 @@
         <xf:group id="form-group">
             
             <xi:include href="edit-form-event-handlers.xml" parse="xml"/>
-            <xxf:variable name="uri" 
+            <xf:var name="uri" 
                 select="xxf:get-session-attribute('return_url')"/>
             
             <h:div class="inputdiv">
                 
                 <h:div style="float:right">
                     <xf:submit submission="save-to-file">
-                        <xf:label><h:img src="/../editor/images/save_small.png" alt="Save"/> Save</xf:label>
+                        <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/save_small.png" alt="Save"/> Save</xf:label>
                         <xf:action ev:event="DOMActivate">
                             <xf:setvalue ref="instance('temp')/target_uri" 
                                 value="concat(instance('parameters')/dcm:form_home,'model/standard_bibliography.xml')"/>
                         </xf:action>
                     </xf:submit>
                     <xf:submit submission="save-to-file">
-                        <xf:label><h:img src="/../editor/images/save_and_close.png" alt="Save and close"/> Save &amp; close</xf:label>
+                        <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/save_and_close.png" alt="Save and close"/> Save &amp; close</xf:label>
                         <xf:action ev:event="DOMActivate">
                             <xf:setvalue ref="instance('temp')/target_uri" 
                                 value="concat(instance('parameters')/dcm:form_home,'model/standard_bibliography.xml')"/>
@@ -44,7 +44,7 @@
                         </xf:action>
                     </xf:submit>
                     <xf:trigger>
-                        <xf:label><h:img src="/../editor/images/close.gif" alt="Cancel (close)"/> Cancel</xf:label>
+                        <xf:label><h:img src="{instance('parameters')/dcm:server_name}/editor/images/close.gif" alt="Cancel (close)"/> Cancel</xf:label>
                         <xf:action ev:event="DOMActivate">
                             <xf:load resource="{xxf:get-session-attribute('return_url')}" show="replace"/>
                         </xf:action>

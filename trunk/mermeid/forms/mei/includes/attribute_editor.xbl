@@ -6,7 +6,7 @@
     xmlns:ev="http://www.w3.org/2001/xml-events"
     xmlns:xi="http://www.w3.org/2001/XInclude"
     xmlns:xxi="http://orbeon.org/oxf/xml/xinclude"
-    xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+    xmlns:xxf="http://orbeon.org/oxf/xml/xforms"
     xmlns:exforms="http://www.exforms.org/exf/1-0"
     xmlns:fr="http://orbeon.org/oxf/xml/form-runner"
     xmlns:saxon="http://saxon.sf.net/"
@@ -16,7 +16,7 @@
     
     <!--
         Component to add and edit attributes to elements based on lists of possible attributes.
-        Danish Centre for Music Publication (DCM) 
+        Danish Centre for Music Editing (DCM) 
         Axel Teich Geertinger, 2012
         atge@kb.dk
     -->
@@ -27,8 +27,8 @@
         <metadata xmlns="http://orbeon.org/oxf/xml/form-builder">
             <display-name lang="en">Attribute editor</display-name>
             <icon lang="en">
-                <small-icon>/../editor/images/attribute.png</small-icon>
-                <large-icon>/../editor/images/attribute.png</large-icon>
+                <small-icon>/editor/images/attribute.png</small-icon>
+                <large-icon>/editor/images/attribute.png</large-icon>
             </icon>
             <template>
                 <dcm:attribute-editor>
@@ -42,10 +42,29 @@
         
         <xbl:resources>
             <xbl:style>
-                .dcm-attribute-editor-label { display: inline-block; width: 7em; }
-                .dcm-attribute-editor-input input { width: 250px; }
+                .orbeon .xbl-dcm-attribute-editor img { vertical-align: middle; }
+                .orbeon .dcm-attribute-editor-input { white-space: nowrap; }
+                .orbeon .dcm-attribute-editor-label.xforms-label { display: inline-block; width: 7em; }
+                .orbeon .dcm-attribute-editor-input input { width: 250px; }
             </xbl:style>
         </xbl:resources>
+        
+        <xbl:implementation>
+            <xf:model id="attr_model">
+
+                <xf:instance id="mei_attr_list">
+                  <xi:include href="../model/MEI_attr_list.xml"
+			      parse="xml"/>
+        		</xf:instance>
+                
+                <xf:instance id="local_temp">
+                    <temp-values>
+                        <counter/>
+                    </temp-values>
+                </xf:instance>
+
+            </xf:model>
+        </xbl:implementation>
         
         <xbl:handlers>
             <!-- Dispatching attr-activate and attr-close events from outside the component allows activating
@@ -61,59 +80,70 @@
         <xbl:template>
             <!-- Local controls -->
             <xf:group xbl:attr="model context ref bind" xxbl:scope="outer">
-                <xf:group ref=".[instance('parameters')/dcm:attr_editor='true']">
-                    <xbl:content includes="xf|label,xf|help,xf|hint,xf|alert"/>                
+                
+                <xbl:content includes="xf|label,xf|help,xf|hint,xf|alert"/>         
+
+                <!-- main 'switch' -->
+                <xf:group ref=".[xxf:get-session-attribute('attr_editor')='true']">
+                    
                     <!-- Inner group -->
-                    <xf:group appearance="xxforms:internal" xxbl:scope="inner">                    
+                    <xf:group appearance="xxf:internal" xxbl:scope="inner">   
+                        
                         <!-- Variables pointing to external single-node bindings -->
-                        <xxforms:variable name="binding" as="node()?">
-                            <xxforms:sequence select="." xxbl:scope="outer"/>
-                            <!-- initialization -->
-                            <xf:action ev:event="xforms-value-changed xforms-enabled"/>
-                        </xxforms:variable>
-                        <xxforms:variable name="nodename" select="local-name()" xxbl:scope="outer"/>
-                        <xxforms:variable name="attributes">
-                            <!-- select attribute list depending on namespace -->
-                            <xxforms:sequence select="if (namespace-uri(.)='http://www.tei-c.org/ns/1.0')
-                                then instance('tei_attr_list')/*[local-name()=$nodename]/@*
-                                else instance('mei_attr_list')/*[local-name()=$nodename]/@*" xxbl:scope="outer"/>
-                        </xxforms:variable>
-                        <xxforms:variable name="counter">
-                            <xxforms:sequence select="instance('temp')/counter" xxbl:scope="outer"/>
-                        </xxforms:variable> 
+                        <xf:var name="binding" as="node()?">
+                            <xxf:value select="." xxbl:scope="outer"/>
+                        </xf:var>
+                        <xf:var name="attributes">
+                            <xxf:value select="instance('mei_attr_list')/*[local-name()=name($binding)][1]/@*" xxbl:scope="inner"/>
+                        </xf:var>
                         
                         <xf:trigger appearance="minimal" id="open_button">
-                            <xf:label><h:img id="attr_editor_id" src="/../editor/images/attribute.png" title="Edit attributes" alt="Edit attributes"/></xf:label>
+                            <xf:label><h:img id="attr_editor_id" src="{xxf:instance('parameters')/dcm:server_name}/editor/images/attribute.png" title="Edit attributes" alt="Edit attributes"/></xf:label>
                             <xf:action ev:event="DOMActivate OpenAndInitialize">
-                                <xxforms:show dialog="attr-dialog"/>                                    
+                                <xxf:show dialog="attr-dialog"/>                                    
                                 <!-- initialization -->
+                                <!-- Trying to add an empty @xml:id here... 
+                                    <xf:insert context="$attributes" origin="xxf:attribute('xml:id','')"/>-->
+                                
                                 <!-- loop through attributes -->
                                 <xf:action ev:event="xforms-value-changed xforms-enabled">
-                                    <xf:setvalue ref="$counter" value="1"/>
-                                    <xf:action while="$counter &lt; count($attributes)+1">
-                                        <xxforms:variable name="current-attribute">
-                                            <xxforms:sequence select="name($attributes[number($counter)])" xxbl:scope="inner"/>
-                                        </xxforms:variable>
+                                    <xf:setvalue ref="instance('local_temp')/counter" value="1"/>
+                                    <xf:action while="instance('local_temp')/counter &lt; count($attributes)+1">
+                                        <xf:var name="current-attribute">
+                                            <xxf:value select="name($attributes[number(instance('local_temp')/counter)])" xxbl:scope="inner"/>
+                                        </xf:var>
                                         <!-- read external value -->
-                                        <xxforms:variable name="current-value">
-                                            <xxforms:sequence select="if ($binding/@*[name()=$current-attribute]) then $binding/@*[name()=$current-attribute] else ''"  xxbl:scope="inner"/>
-                                        </xxforms:variable> 
+                                        <xf:var name="current-value">
+                                            <xxf:value select="if ($binding/@*[name()=$current-attribute]) then $binding/@*[name()=$current-attribute] else ''"  xxbl:scope="inner"/>
+                                        </xf:var> 
                                         <!-- reset local value -->
                                         <xf:setvalue ref="$attributes[name()=$current-attribute]" value="$current-value"/>
-                                        <xf:setvalue ref="$counter" value=". + 1"/>
+                                        <xf:setvalue ref="instance('local_temp')/counter" value=". + 1"/>
                                     </xf:action>  
                                 </xf:action>
                             </xf:action>
                         </xf:trigger>
                         
                         <!-- the pop-up editor -->
-                        <xxforms:dialog id="attr-dialog" appearance="full" level="modal"
+                        <xxf:dialog id="attr-dialog" appearance="full" level="modal"
                             close="true" draggable="true" visible="false">
                             <xf:label>&lt;<xf:output value="local-name($binding)"/>&gt; attributes</xf:label>                        
                             <xf:repeat ref="$attributes">
                                 <xf:input ref="." class="dcm-attribute-editor-input">
                                     <xf:label value="name()" class="dcm-attribute-editor-label"/>
                                 </xf:input>
+                                <!-- offer generating an ID if missing -->
+                                <xf:group ref=".[name()='xml:id' and string-length(.)=0]">
+                                    <xf:trigger>
+                                        <xf:label>Generate ID</xf:label>
+                                        <xf:action ev:event="DOMActivate">
+                                            <xf:setvalue ref="." 
+                                                value="concat(local-name($binding),'_',substring(digest(string(random(true)), 'MD5', 'hex'),1,8))"/>
+                                            <xf:setvalue ref="xxf:instance('temp')/changed" value="'true'"/>
+                                            <xf:dispatch name="id-update" target="form-group"/>
+                                        </xf:action>
+                                    </xf:trigger>
+                                </xf:group>
                                 <h:br/>
                             </xf:repeat>
                             <!-- React to update to local values -->
@@ -124,58 +154,61 @@
                                     <xf:label>OK</xf:label>
                                     <xf:action ev:event="DOMActivate SaveAndClose">
                                         <!-- hide editor -->
-                                        <xxforms:hide dialog="attr-dialog"/>                                    
+                                        <xxf:hide dialog="attr-dialog"/>                                    
                                         <!-- copy values to outer binding -->
-                                        <xf:setvalue ref="$counter" value="1"/>
-                                        <xf:action while="$counter &lt; count($attributes)+1">
-                                            <xxforms:variable name="current-attribute">
-                                                <xxforms:sequence select="name($attributes[number($counter)])" xxbl:scope="inner"/>
-                                            </xxforms:variable> 
-                                            <xxforms:variable name="current-value">
-                                                <xxforms:sequence select="$attributes[number($counter)]" xxbl:scope="inner"/>
-                                            </xxforms:variable>
+                                        <xf:setvalue ref="instance('local_temp')/counter" value="1"/>
+                                        <xf:action while="instance('local_temp')/counter &lt; count($attributes)+1">
+                                            <xf:var name="current-attribute">
+                                                <xxf:value select="name($attributes[number(instance('local_temp')/counter)])" xxbl:scope="inner"/>
+                                            </xf:var> 
+                                            <xf:var name="current-value">
+                                                <xxf:value select="$attributes[number(instance('local_temp')/counter)]" xxbl:scope="inner"/>
+                                            </xf:var>
                                             <!-- copy value if attribute exists -->
                                             <xf:action if="$binding/@*[name()=$current-attribute]">
                                                 <xf:setvalue ref="$binding/@*[name()=$current-attribute]" value="$current-value"/>
                                             </xf:action>
-                                            <!-- create non-empty attributes if they do not exist -->
+                                            <!-- create non-empty attributes if they do not exist already -->
                                             <xf:action if="not($binding/@*[name()=$current-attribute]) and normalize-space($current-value)!=''">
-                                                <xf:insert context="$binding" origin="$attributes[number($counter)]"/>
+                                                <xf:insert context="$binding" origin="$attributes[number(instance('local_temp')/counter)]"/>
                                             </xf:action>
-                                            <xf:setvalue ref="$counter" value=". + 1"/>
+                                            <xf:setvalue ref="instance('local_temp')/counter" value=". + 1"/>
                                         </xf:action>                                                    
+                                        <xf:setvalue ref="xxf:instance('temp')/changed" value="'true'"/>
                                     </xf:action>
                                 </xf:trigger>
                                 <!-- re-read values from external node -->
                                 <xf:trigger id="reset_button">
                                     <xf:label>Reset</xf:label>
                                     <xf:action ev:event="DOMActivate ResetAttr">
-                                        <xf:setvalue ref="$counter" value="1"/>
+                                        <xf:setvalue ref="instance('local_temp')/counter" value="1"/>
                                         <!-- loop through attributes -->
-                                        <xf:action while="$counter &lt; count($attributes)+1">
-                                            <xxforms:variable name="current-attribute">
-                                                <xxforms:sequence select="name($attributes[number($counter)])" xxbl:scope="inner"/>
-                                            </xxforms:variable>
+                                        <xf:action while="instance('local_temp')/counter &lt; count($attributes)+1">
+                                            <xf:var name="current-attribute">
+                                                <xxf:value select="name($attributes[number(instance('local_temp')/counter)])" xxbl:scope="inner"/>
+                                            </xf:var>
                                             <!-- read external value -->
-                                            <xxforms:variable name="current-value">
-                                                <xxforms:sequence select="if ($binding/@*[name()=$current-attribute]) then $binding/@*[name()=$current-attribute] else ''" xxbl:scope="inner"/>
-                                            </xxforms:variable> 
+                                            <xf:var name="current-value">
+                                                <xxf:value select="if ($binding/@*[name()=$current-attribute]) then $binding/@*[name()=$current-attribute] else ''" xxbl:scope="inner"/>
+                                            </xf:var> 
                                             <!-- reset local value -->
                                             <xf:setvalue ev:event="xforms-enabled" ref="$attributes[name()=$current-attribute]" value="$current-value"/>
-                                            <xf:setvalue ref="$counter" value=". + 1"/>
+                                            <xf:setvalue ref="instance('local_temp')/counter" value=". + 1"/>
                                         </xf:action>  
                                     </xf:action>
                                 </xf:trigger>
                                 <xf:trigger>
                                     <xf:label>Cancel</xf:label>
                                     <xf:action ev:event="DOMActivate">
-                                        <xxforms:hide dialog="attr-dialog"/>                                    
+                                        <xxf:hide dialog="attr-dialog"/>                                    
                                     </xf:action>
                                 </xf:trigger>                                                
                             </h:div>                                            
-                        </xxforms:dialog>
+                        </xxf:dialog>
                     </xf:group>                            
-                </xf:group>
+
+                </xf:group>                            
+                
             </xf:group>
         </xbl:template>
     </xbl:binding>

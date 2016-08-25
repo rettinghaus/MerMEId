@@ -2,14 +2,15 @@
 
 <xbl:xbl xmlns:h="http://www.w3.org/1999/xhtml"
   xmlns:xf="http://www.w3.org/2002/xforms"
-  xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+  xmlns:xxf="http://orbeon.org/oxf/xml/xforms"
   xmlns:xbl="http://www.w3.org/ns/xbl"
   xmlns:xxbl="http://orbeon.org/oxf/xml/xbl"
+  xmlns:ev="http://www.w3.org/2001/xml-events"
   xmlns:dcm="http://www.kb.dk/dcm">
   
   <!--
     Component to display the context node's xml:id attribute.
-    Danish Centre for Music Publication (DCM) 
+    Danish Centre for Music Editing (DCM) 
     Axel Teich Geertinger, 2012
     atge@kb.dk
   -->
@@ -30,15 +31,25 @@
     
     <xbl:template>
       <xf:group xbl:attr="model context ref bind" xxbl:scope="outer">
-        <xf:group ref=".[instance('parameters')/dcm:show_id='true']">
-          <xf:group appearance="xxforms:internal" xxbl:scope="inner">
-            <xxforms:variable name="binding" as="node()?">
-              <xxforms:sequence select="." xxbl:scope="outer"/>
-            </xxforms:variable>
-            <h:a class="dcm_id"><img src="/../editor/images/id.png" border="0" 
-              alt="ID" class="id_card"/><h:span class="comment">ID: <xf:output 
-                value="if ($binding/@xml:id) then $binding/@xml:id else 'ID missing'"/></h:span></h:a>          
-          </xf:group>
+        <xf:group ref=".[xxf:get-session-attribute('show_id')='true']">
+            <h:a class="dcm_id"><h:img src="{xxf:instance('parameters')/dcm:server_name}/editor/images/id.png" border="0" 
+              alt="ID" class="id_card"/><h:span class="comment">              
+                <xf:group ref=".[@xml:id and @xml:id!='']">
+                  ID: <xf:output value="@xml:id"/>
+                </xf:group>
+                <xf:group ref=".[not(@xml:id) or @xml:id='']">
+                  No XML:ID value
+                  <xf:trigger>
+                    <xf:label>Generate ID</xf:label>
+                    <xf:action ev:event="DOMActivate">
+                      <xf:insert nodeset="@*" context="."
+                        origin="xxf:attribute('xml:id',concat(name(.),'_',substring(digest(string(random(true)), 'MD5', 'hex'),1,8)))"/>
+                      <xf:setvalue ref="xxf:instance('temp')/changed" value="'true'"/>
+                      <xf:dispatch name="id-update" target="form-group"/>
+                    </xf:action>
+                  </xf:trigger>
+                </xf:group>
+              </h:span></h:a>   
         </xf:group>
       </xf:group>
     </xbl:template>
