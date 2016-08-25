@@ -4,28 +4,16 @@
 <instrumentation analog="http://www.loc.gov/marc/bibliographic/bd048.html"
     xmlns="http://www.music-encoding.org/ns/mei">
     <instrVoice code="" label=""/>
-<<<<<<< HEAD:trunk/xqueries/library/instruments.xml
 
-=======
-    
->>>>>>> fd1d85283035863f0328ba4f4683dcbbfa3057b3:trunk/xqueries/library/instruments.xml
     <!-- Editable list begins here. -->
     <!-- To customize instrument names to be inserted in your instrumentations,
          change the text between <instrVoice ...> and </instVoice>. -->
     <!-- In order to maintain MARC compatibility please do not change attribute values or delete rows. -->
-<<<<<<< HEAD:trunk/xqueries/library/instruments.xml
 
     <instrVoice code="ba" label="Brass - Horn">Cor</instrVoice>
     <instrVoice code="bb" label="Brass - Trumpet">Tr</instrVoice>
     <instrVoice code="bc" label="Brass - Cornet">Cln</instrVoice>
     <instrVoice code="bd" label="Brass - Trombone">Tbne</instrVoice>
-=======
-    
-    <instrVoice code="ba" label="Brass - Horn">cor.</instrVoice>
-    <instrVoice code="bb" label="Brass - Trumpet">tr.</instrVoice>
-    <instrVoice code="bc" label="Brass - Cornet">cnt.</instrVoice>
-    <instrVoice code="bd" label="Brass - Trombone">trb.</instrVoice>
->>>>>>> fd1d85283035863f0328ba4f4683dcbbfa3057b3:trunk/xqueries/library/instruments.xml
     <instrVoice code="be" label="Brass - Tuba">tb.</instrVoice>
     <instrVoice code="bf" label="Brass - Baritone">bar.</instrVoice>
     <instrVoice code="bn" label="Brass - Unspecified">brass</instrVoice>
@@ -45,21 +33,12 @@
     <instrVoice code="kd" label="Keyboard - Clavichord">Clavier</instrVoice>
     <instrVoice code="ke" label="Keyboard - Continuo">Bc</instrVoice>
     <instrVoice code="kf" label="Keyboard - Celeste">cel.</instrVoice>
-<<<<<<< HEAD:trunk/xqueries/library/instruments.xml
     <instrVoice code="kn" label="Keyboard - Unspecified">Clavier</instrVoice>
     <instrVoice code="ku" label="Keyboard - Unknown">Clavier</instrVoice>
     <instrVoice code="ky" label="Keyboard - Ethnic">Clavier</instrVoice>
     <instrVoice code="kz" label="Keyboard - Other">Clavier</instrVoice>
     <instrVoice code="pa" label="Percussion - Timpani">Timp</instrVoice>
     <instrVoice code="pb" label="Percussion - Xylophone">xyl.</instrVoice>
-=======
-    <instrVoice code="kn" label="Keyboard - Unspecified">keyb.</instrVoice>
-    <instrVoice code="ku" label="Keyboard - Unknown">keyb.</instrVoice>
-    <instrVoice code="ky" label="Keyboard - Ethnic">keyb.</instrVoice>
-    <instrVoice code="kz" label="Keyboard - Other">keyb.</instrVoice>
-    <instrVoice code="pa" label="Percussion - Timpani">timp.</instrVoice>
-    <instrVoice code="pb" label="Percussion - Xylophone">xil.</instrVoice>
->>>>>>> fd1d85283035863f0328ba4f4683dcbbfa3057b3:trunk/xqueries/library/instruments.xml
     <instrVoice code="pc" label="Percussion - Marimba">marimba</instrVoice>
     <instrVoice code="pd" label="Percussion - Drum">Trommel</instrVoice>
     <instrVoice code="pn" label="Percussion - Unspecified">perc.</instrVoice>
@@ -85,7 +64,6 @@
     <instrVoice code="tu" label="Strings, plucked - Unknown"/>
     <instrVoice code="ty" label="Strings, plucked - Ethnic"/>
     <instrVoice code="tz" label="Strings, plucked - Other"/>
-<<<<<<< HEAD:trunk/xqueries/library/instruments.xml
     <instrVoice code="va" label="Voices - Soprano">S</instrVoice>
     <instrVoice code="vb" label="Voices - Mezzo Soprano">MezzS</instrVoice>
     <instrVoice code="vc" label="Voices - Alto">A</instrVoice>
@@ -97,19 +75,6 @@
     <instrVoice code="vi" label="Voices - Medium voice">Singstimme (mittel)</instrVoice>
     <instrVoice code="vj" label="Voices - Low voice">Singstimme (tief)</instrVoice>
     <instrVoice code="vn" label="Voices - Unspecified">Singstimme</instrVoice>
-=======
-    <instrVoice code="va" label="Voices - Soprano">S.</instrVoice>
-    <instrVoice code="vb" label="Voices - Mezzo Soprano">MezzS.</instrVoice>
-    <instrVoice code="vc" label="Voices - Alto">A.</instrVoice>
-    <instrVoice code="vd" label="Voices - Tenor">T.</instrVoice>
-    <instrVoice code="ve" label="Voices - Baritone">Bar.</instrVoice>
-    <instrVoice code="vf" label="Voices - Bass">B.</instrVoice>
-    <instrVoice code="vg" label="Voices - Counter tenor">CtrT.</instrVoice>
-    <instrVoice code="vh" label="Voices - High voice">high voice</instrVoice>
-    <instrVoice code="vi" label="Voices - Medium voice">medium voice</instrVoice>
-    <instrVoice code="vj" label="Voices - Low voice">low voice</instrVoice>
-    <instrVoice code="vn" label="Voices - Unspecified">voice</instrVoice>
->>>>>>> fd1d85283035863f0328ba4f4683dcbbfa3057b3:trunk/xqueries/library/instruments.xml
     <instrVoice code="vu" label="Voices - Unknown">voice</instrVoice>
     <instrVoice code="vy" label="Voices - Ethnic">voice</instrVoice>
     <instrVoice code="wa" label="Woodwinds - Flute">Fl</instrVoice>
