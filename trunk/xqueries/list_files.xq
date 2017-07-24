@@ -15,7 +15,7 @@ declare namespace ht="http://exist-db.org/xquery/httpclient";
 declare namespace local="http://kb.dk/this/app";
 declare namespace m="http://www.music-encoding.org/ns/mei";
 
-declare option exist:serialize "method=xml media-type=text/html"; 
+declare option exist:serialize "method=xml media-type=text/html";
 
 declare variable $genre  := request:get-parameter("genre","") cast as xs:string;
 declare variable $coll   := request:get-parameter("c",    "") cast as xs:string;
@@ -38,7 +38,7 @@ declare variable $sort-options :=
 );
 
 
-declare variable $published_only := 
+declare variable $published_only :=
 request:get-parameter("published_only","") cast as xs:string;
 
 declare function local:format-reference(
@@ -46,7 +46,7 @@ declare function local:format-reference(
   $pos as xs:integer ) as node() {
 
     let $class :=
-      if($pos mod 2 = 1) then 
+      if($pos mod 2 = 1) then
 	"odd"
       else
 	"even"
@@ -63,20 +63,23 @@ declare function local:format-reference(
           substring($doc//m:workDesc/m:work/m:history/m:creation/m:date/@isodate,1,4)
 
 
-	let $ref   := 
+	let $ref   :=
 	<tr class="result {$class}">
 	  <td nowrap="nowrap">
 	    {$doc//m:workDesc/m:work/m:titleStmt/m:respStmt/m:persName[@role='composer']}
 	  </td>
+    <td nowrap="nowrap">
+  	  {$doc//m:workDesc/m:work/m:identifier[1]}
+  	</td>
 	  <td>{app:view-document-reference($doc)}</td>
 	  <td>{"  ",$date_output}</td>
 	  <td nowrap="nowrap">{app:get-edition-and-number($doc)} </td>
 	  <td class="tools">
 	    <a target="_blank"
-            title="View XML source" 
+            title="View XML source"
             href="/storage/dcm/{util:document-name($doc)}">
-	      <img src="/editor/images/xml.gif" 
-	      alt="view source" 
+	      <img src="/editor/images/xml.gif"
+	      alt="view source"
 	      border="0"
               title="View source" />
 	    </a>
@@ -95,21 +98,21 @@ declare function local:format-reference(
 	    {app:list-title()}
 	  </title>
 	  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-	  <link rel="styleSheet" 
-	  href="/editor/style/list_style.css" 
+	  <link rel="styleSheet"
+	  href="/editor/style/list_style.css"
 	  type="text/css"/>
-	  <link rel="styleSheet" 
-	  href="/editor/style/xform_style.css" 
+	  <link rel="styleSheet"
+	  href="/editor/style/xform_style.css"
 	  type="text/css"/>
-	  
+
 	  <script type="text/javascript" src="/editor/js/confirm.js">
 	  //
 	  </script>
-	  
+
 	  <script type="text/javascript" src="/editor/js/checkbox.js">
 	  //
 	  </script>
-	  
+
 	  <script type="text/javascript" src="/editor/js/publishing.js">
 	  //
 	  </script>
@@ -118,28 +121,28 @@ declare function local:format-reference(
 	<body class="list_files">
 	  <div class="list_header">
 	    <div style="float:right;">
-	      <a title="Add new file" href="#" class="addLink" 
-	      onclick="location.href='/filter/new/dcm/'; return false;"><img 
+	      <a title="Add new file" href="#" class="addLink"
+	      onclick="location.href='/filter/new/dcm/'; return false;"><img
 	      src="/editor/images/new.gif" alt="New file" border="0" /></a>
 	      &#160;
-	      <a href="/editor/manual/" 
+	      <a href="/editor/manual/"
 	      class="addLink"
-	      target="_blank"><img 
-	      src="/editor/images/help_light.png" 
-	      title="Help - opens the manual in a new window or tab" 
-	      alt="Help" 
+	      target="_blank"><img
+	      src="/editor/images/help_light.png"
+	      title="Help - opens the manual in a new window or tab"
+	      alt="Help"
 	      border="0"/></a>
 	    </div>
-	    <img src="/editor/images/mermeid_30px.png" 
-            title="MerMEId - Metadata Editor and Repository for MEI Data" 
+	    <img src="/editor/images/mermeid_30px.png"
+            title="MerMEId - Metadata Editor and Repository for MEI Data"
 	    alt="MerMEId Logo"/>
 	  </div>
 	  <div class="filter_bar">
 	    <table class="filter_block">
 	      <tr>
-		<td class="label">Filter by: &#160;</td>
+		<td class="label">Filtern nach: &#160;</td>
 		<td class="label">Publication status</td>
-		<td class="label">Collection</td>
+		<td class="label">Sammlung</td>
 		<td class="label">Keywords</td>
 	      </tr>
 	      <tr>
@@ -151,30 +154,30 @@ declare function local:format-reference(
   			for $alt in app:options()
 			  let $option :=
 			    if( $alt/@value eq $published_only ) then
-		               <option value="{$alt/@value/text()}" 
+		               <option value="{$alt/@value/text()}"
 			       selected="selected">
 				 {$alt/text()}
 			       </option>
 			    else
-			      $alt 
+			      $alt
 			  return $option
 		      }
-		      </select> 
+		      </select>
 		      {app:pass-as-hidden-except("published_only")}
 		    </form>
 		</td>
 		<td>
-		
+
 		  <select onchange="location.href=this.value; return false;">
 		    {
             	      for $c in distinct-values(
             		collection("/db/dcm")//m:seriesStmt/m:identifier[@type="file_collection" and string-length(.) > 0]/string())
-            		let $querystring  := 
+            		let $querystring  :=
             		  if($query) then
             		    fn:string-join(
             		      ("c=",$c,
             		      "&amp;published_only=",$published_only,
-            		      "&amp;itemsPerPage=",$number cast as xs:string,	
+            		      "&amp;itemsPerPage=",$number cast as xs:string,
             		      "&amp;query=",
             		      fn:escape-uri($query,true())),
             		      ""
@@ -183,30 +186,30 @@ declare function local:format-reference(
             		    concat("c=",$c,
             		    "&amp;published_only=",$published_only,
             		    "&amp;itemsPerPage="  ,$number cast as xs:string)
-			       
+
             		    return
-            		      if(not($coll=$c)) then 
+            		      if(not($coll=$c)) then
             		      <option value="?{$querystring}">{$c}</option>
             	              else
             		      <option value="?{$querystring}" selected="selected">{$c}</option>
                      }
                      {
-            
-		       let $get-uri := 
+
+		       let $get-uri :=
             		 if($query) then
             		   fn:string-join(("?published_only=",$published_only,"&amp;query=",fn:escape-uri($query,true())),"")
             		 else
             		   concat("?c=&amp;published_only=",$published_only)
-            
-            	       let $link := 
-            		 if($coll) then 
+
+            	       let $link :=
+            		 if($coll) then
             		 <option value="{$get-uri}">All collections</option>
             	         else
             		 <option value="{$get-uri}" selected="selected">All collections</option>
             	       return $link
 		     }
 		  </select>
-                    
+
           </td>
           <td>
             <form action="/storage/list_files.xq" method="get" class="search">
@@ -216,14 +219,14 @@ declare function local:format-reference(
               <input name="itemsPerPage"  value='{$number}' type='hidden' />
               <input type="submit" value="Search"               />
               <input type="submit" value="Clear" onclick="this.form.query.value='';this.form.submit();return true;"/>
-              <a class="help">?<span class="comment">Search terms may be combined using boolean operators. Wildcards allowed. 
+              <a class="help">?<span class="comment">Search terms may be combined using boolean operators. Wildcards allowed.
                   Search is case insensitive (except for boolean operators, which must be uppercase).
                   Some examples:<br/>
                   <span class="help_table">
                     <span class="help_example">
                       <span class="help_label">carl OR nielsen</span>
                       <span class="help_value">Boolean OR (default)</span>
-                    </span>                        
+                    </span>
                     <span class="help_example">
                       <span class="help_label">carl AND nielsen</span>
                       <span class="help_value">Boolean AND</span>
@@ -257,69 +260,67 @@ declare function local:format-reference(
         <div class="nav_bar">
           {app:navigation($sort-options,$list)}
         </div>
-           
+
         <table border='0' cellpadding='0' cellspacing='0' class='result_table'>
           <tr>
-            <th>Composer</th>
-            <th>Title</th>
-            <th>Year</th>
-            <th>Collection</th>
+            <th>Komponist</th>
+            <th>ID</th>
+            <th>Titel</th>
+            <th>Jahr</th>
+            <th>Sammlung</th>
             <th class="tools" >XML</th>
             <th class="tools">Edit</th>
             <th class="tools">Copy</th>
-            <th class="tools">	   
+            <th class="tools">
               <form method="get" id="publish_form" action="/storage/publish.xq" >
                 <div id="publish">
-                Publish 
-                <img src="/editor/images/menu.png" 
-                alt="Publishing menu" 
+                Publish
+                <img src="/editor/images/menu.png"
+                alt="Publishing menu"
                 onmouseover="document.getElementById('publish_menu').style.visibility='visible'"
                 onmouseout="document.getElementById('publish_menu').style.visibility='hidden'"
                 style="vertical-align: text-top;"/>
-                <div class="popup" 
-                     id="publish_menu" 
+                <div class="popup"
+                     id="publish_menu"
                      onmouseover="document.getElementById('publish_menu').style.visibility='visible'"
                      onmouseout="document.getElementById('publish_menu').style.visibility='hidden'">
-               
-                  <button 
-                     type="submit" 
+
+                  <button
+                     type="submit"
                      onclick="document.getElementById('publishingaction').value='publish';">
                     <img src="/editor/images/publish.png" alt="Publish"/>
                     Publish selected files
-		  </button>
+		              </button>
                   <br/>
-                  <button 
+                  <button
                      type="submit"
                      onclick="document.getElementById('publishingaction').value='retract';">
                     <img src="/editor/images/unpublish.png" alt="Unpublish"/>
                     Unpublish selected files
-		  </button>
-                                   
-               	  <input name="publishing_action" 
+		              </button>
+
+               	  <input name="publishing_action"
                	         type="hidden"
-                         value="publish" 
+                         value="publish"
                          id="publishingaction" />
                   {app:pass-as-hidden()}
-                               
+
                   <hr/>
-                               
+
                   <button type="button"
                           onclick="check_all();">
                     <img src="/editor/images/check_all.png" alt="Check all" title="Check all"/>
                     Select all files
-		  </button>
+		              </button>
                   <br/>
-                  <button type="button"
-                          onclick="un_check_all();">
-                    <img src="/editor/images/uncheck_all.png" 
-		         alt="Uncheck all" 
-			 title="Uncheck all"/>
-                         Unselect all files
-		  </button>
+                  <button type="button" onclick="un_check_all();">
+                    <img src="/editor/images/uncheck_all.png" alt="Uncheck all" title="Uncheck all"/>
+                    Unselect all files
+		              </button>
                 </div>
                 </div>
               </form>
-           	   
+
             </th>
             <th class="tools">Delete</th>
           </tr>
@@ -331,10 +332,10 @@ declare function local:format-reference(
       </div>
     }
     <div class="footer">
-      <a href="http://www.kb.dk/dcm" title="DCM" 
-      style="text-decoration:none;"><img 
-           style="border: 0px; vertical-align:middle;" 
-           alt="DCM Logo" 
+      <a href="http://www.kb.dk/dcm" title="DCM"
+      style="text-decoration:none;"><img
+           style="border: 0px; vertical-align:middle;"
+           alt="DCM Logo"
            src="/editor/images/dcm_logo_small_white.png"/></a>
            Danish Centre for Music Editing | The Royal Library, Copenhagen | <a name="www.kb.dk" id="www.kb.dk" href="http://www.kb.dk/dcm">www.kb.dk/dcm</a>
     </div>
