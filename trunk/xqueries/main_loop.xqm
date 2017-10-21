@@ -154,7 +154,7 @@ declare function loop:sort-key (
 	else
 	  "0000"
     else if($key eq "work_number") then
-      let $identifier:=$doc//m:workDesc/m:work/m:identifier[@label=$collection][1]/string()
+      let $identifier:=$doc//m:workDesc/m:work/m:identifier[1]/string()
       (: extract any trailing number :)
       let $number:= replace($identifier,'^.*?(\d*)$','$1')
       (: and anything that might be before the number :)
