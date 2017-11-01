@@ -1577,6 +1577,7 @@
 						test="position()=last() and count(../m:corpName[text()]|../m:persName[text()])=0"
 						>. </xsl:if>
 				</xsl:for-each>
+<<<<<<< HEAD
 				<xsl:for-each select="m:corpName[text()]|
 			      m:persName[text()]">
 					<xsl:if test="position()=1"> (</xsl:if>
@@ -1615,6 +1616,17 @@
 						<xsl:text>). </xsl:text>
 					</xsl:if>
 				</xsl:for-each>
+=======
+				
+				
+				<xsl:if test="m:corpName[text()] | m:persName[text()]">
+					<xsl:text> (</xsl:text>
+					<xsl:apply-templates select="." mode="list_persons_by_role">
+						<xsl:with-param name="style" select="'inline'"/>
+					</xsl:apply-templates>
+					<xsl:text>). </xsl:text>
+				</xsl:if>				
+>>>>>>> ce7a231... Merge pull request #74 from Det-Kongelige-Bibliotek/new-features
 
 				<xsl:for-each select="m:p[text()]">
 					<xsl:apply-templates/>
@@ -1730,6 +1742,7 @@
 	</xsl:template>
 
 	<xsl:template match="*" mode="list_persons_by_role">
+<<<<<<< HEAD
 		<xsl:if test="count(m:persName[text()] | m:corpName[text()])>0">
 			<xsl:for-each select="m:corpName[text()]|m:persName[text()]">
 				<xsl:variable name="role">
@@ -1737,6 +1750,28 @@
 						<xsl:with-param name="str" select="@role"/>
 					</xsl:call-template>
 				</xsl:variable>
+=======
+		<!-- Roles to omit from the list -->
+		<xsl:param name="exclude" select="'none'"/>
+		<!-- CSS class to be assigned to role labels -->
+		<xsl:param name="label_class"/>
+		<!-- List style: 'inline' or nothing (inserts a line break after each role empty) -->
+		<xsl:param name="style"/>
+		<!-- Capitalize roles? 'yes' or nothing for no -->
+		<xsl:param name="capitalize"/>
+		<!-- Separator between names with the same role -->
+		<xsl:param name="separator" select="';'"/>
+		<xsl:for-each select="m:corpName[text() and not(@role=$exclude)] | m:persName[text() and not(@role=$exclude)]">
+			<xsl:variable name="role_str">
+				<!-- look up the role description text (or use the attribute value unchanged if not found) -->
+				<xsl:variable name="role_attr"><xsl:value-of select="@role"/></xsl:variable>
+				<xsl:choose>
+					<xsl:when test="$l/*[name()=$role_attr]"><xsl:value-of select="$l/*[name()=$role_attr]"/></xsl:when>
+					<xsl:otherwise><xsl:value-of select="@role"/></xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:variable name="role">
+>>>>>>> ce7a231... Merge pull request #74 from Det-Kongelige-Bibliotek/new-features
 				<xsl:choose>
 					<xsl:when test="@role!=preceding-sibling::*[1]/@role or position()=1">
 						<xsl:choose>
@@ -3383,6 +3418,11 @@
 		<u>
 			<xsl:apply-templates/>
 		</u>
+	</xsl:template>
+	<xsl:template match="m:rend[@rend = 'underline(2)'][normalize-space(.)]">
+		<span style="border-bottom: 3px double;">
+			<xsl:apply-templates/>
+		</span>
 	</xsl:template>
 	<xsl:template match="m:rend[@rend = 'line-through'][normalize-space(.)]">
 		<span style="text-decoration: line-through;">
